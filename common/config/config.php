@@ -19,9 +19,7 @@ return array(
     /*子域名泛解析设置*/
     'SUB_DOMAIN_OPEN' => true,
     'SUB_DOMAIN_RULES' => [
-        'blog' => 'blog',
-        'admin' => 'admin',
-        'api'=>'api'
+        'www' => 'home',
     ],
     /*http请求设置 结束*/
 
