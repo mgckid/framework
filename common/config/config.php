@@ -17,6 +17,7 @@ return array(
     /* URL设置 */
     'URL_MODE' => 2, //url访问模式  0：默认动态url传参模式 1：pathinfo模式 2:兼容模式
     /*子域名泛解析设置*/
+    'MAIN_DOMAIN'=>'fff.me',
     'SUB_DOMAIN_OPEN' => true,
     'SUB_DOMAIN_RULES' => [
         'www' => 'home',

@@ -153,18 +153,6 @@ class Application
         return self::getInstance()->register;
     }
 
-    /**
-     * 会话组件
-     * @return  Session
-     */
-    static public function session()
-    {
-        if (!self::register()->has('session')) {
-            $session_factory = new SessionFactory();
-            self::register()->set('session', $session_factory->newInstance($_COOKIE));
-        }
-        return self::register()->get('session');
-    }
 
     /**
      * 回话组件
@@ -190,18 +178,6 @@ class Application
         return self::register()->get('cache')->setCache($cache_name);
     }
 
-    /**
-     * session 分片
-     * @return Segment
-     */
-    static function segment()
-    {
-        if (!self::register()->has('segment')) {
-            self::session()->setCookieParams(array('lifetime' => 1800 * 24));
-            $secure_key = self::config()->get('SEGMENT_KEY');
-            self::register()->set('segment', self::session()->getSegment($secure_key));
-        }
-        return self::register()->get('segment');
-    }
+
 
 }
