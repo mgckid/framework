@@ -26,19 +26,6 @@ class Application
     {
     }
 
-    /**
-     * 定义应用程序常量
-     *
-     * @access  private
-     * @author furong
-     * @return void
-     * @since
-     * @abstract
-     */
-    private static function defineAppCons()
-    {
-
-    }
 
     /**
      * 运行应用
