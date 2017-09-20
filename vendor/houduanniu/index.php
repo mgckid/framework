@@ -10,14 +10,14 @@
 header("content-type:text/html; charset=utf-8");
 
 /*框架常量设置 开始*/
+#框架运行开发模式
+defined('__ENVIRONMENT__') || define('__ENVIRONMENT__', 'develop');
 #是否ajax请求
 define('IS_AJAX', isset($_SERVER["HTTP_X_REQUESTED_WITH"]) && strtolower($_SERVER["HTTP_X_REQUESTED_WITH"]) == "xmlhttprequest" ? true : FALSE);
 #是否get请求
 define('IS_GET', strtolower($_SERVER['REQUEST_METHOD']) == 'get' ? true : false);
 #是否post请求
 define('IS_POST', ($_SERVER['REQUEST_METHOD'] == 'POST' && (empty($_SERVER['HTTP_REFERER']) || preg_replace("~https?:\/\/([^\:\/]+).*~i", "\\1", $_SERVER['HTTP_REFERER']) == preg_replace("~([^\:]+).*~", "\\1", $_SERVER['HTTP_HOST']))) ? true : FALSE);
-#框架运行开发模式
-defined('__ENVIRONMENT__') || define('__ENVIRONMENT__', 'develop');
 #项目路径
 defined('__PROJECT__') or define('__PROJECT__', dirname(dirname($_SERVER['DOCUMENT_ROOT'])));
 #框架组件路径
@@ -29,7 +29,7 @@ defined('__HOST__') or define('__HOST__', $_SERVER['HTTP_HOST']);
 /*框架常量设置 结束*/
 
 #载入函数库
-require __DIR__ . '/function.php';
+require __FRAMEWORK__ . '/function.php';
 
 
 #错误报告级别(默认全部)
@@ -45,6 +45,7 @@ if (__ENVIRONMENT__ == 'develop') {
 
 #时区设置
 date_default_timezone_set('PRC');
+
 #注册类
 require __FRAMEWORK__ . '/base/Register.php';
 $register = new \houduanniu\base\Register();
