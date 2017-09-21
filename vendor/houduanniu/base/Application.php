@@ -16,10 +16,10 @@ use Exceptions\Http\Client\NotFoundException;
 
 class Application
 {
-    public static $instance;
-    public $container;
-    public $message;
-    public $info;
+    protected static $instance;
+    protected $container;
+    protected $message;
+    protected $info;
 
     private function __construct()
     {
@@ -71,6 +71,6 @@ class Application
      */
     static public function getContainer()
     {
-        return self::getInstance()->container();
+        return self::getInstance()->container;
     }
 }

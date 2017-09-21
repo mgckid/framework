@@ -9,8 +9,8 @@
 namespace app\controller;
 
 
+use houduanniu\base\Application;
 use houduanniu\web\Controller;
-use Pimple\Container;
 
 class IndexController extends Controller
 {
