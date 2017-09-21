@@ -12,12 +12,10 @@ namespace houduanniu\web;
 use houduanniu\base\Application;
 class Controller
 {
-    public $environment;
 
     function __construct()
     {
-        #获取环境模式
-        $this->environment = Application::config()->get('ENVIRONMENT');
+
     }
 
     /**

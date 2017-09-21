@@ -55,18 +55,38 @@ $register = new \houduanniu\base\Register();
 require __VENDOR__ . '/Aura.Autoload-2.x/src/Loader.php';
 require __VENDOR__ . '/Pimple-master/src/Pimple/Container.php';
 $container = new \Pimple\Container();
-$container['loader']=function($c){
+$container['loader'] = function ($c) {
     return new \Aura\Autoload\Loader();
 };
-$container['loader']->register();
-print_g(get_class_methods($container['loader']));
-$container['loader']->setPrefixes(require(__VENDOR__ . '/classMap.php'));
-//$register->set('autoloader', new \Aura\Autoload\Loader());
-//$register->get('autoloader')->register();
-//$register->get('autoloader')->setPrefixes(require(__VENDOR__ . '/classMap.php'));
+$loader = $container['loader'];
+$loader->register();
+$loader->setPrefixes(require(__VENDOR__ . '/classMap.php'));
 
+#注册http请求打包组件
+$container['request'] = function ($c) {
+    return new \houduanniu\base\Request($c['config']->all());
+};
+#注册框架配置组件
+$container['config'] = function ($c) {
+    return new \houduanniu\base\Config(__PROJECT__ . '/common/config');
+};
+
+#注册缓存组件
+$container['cache'] = function ($c) {
+    return (new \houduanniu\base\Cache())->setCachePath(__PROJECT__ . '/cache/');
+};
+
+
+
+#应用加载
+$request_data = $container['request']->run();
+$appPath = array(
+    __PROJECT__ . '/' . strtolower($request_data['module']),
+    __PROJECT__ . '/common',
+);
+$loader->addPrefix('app', $appPath);
 try {
-    \houduanniu\base\Application::run($register);
+    \houduanniu\base\Application::run($container);
 } catch (\Exception $e) {
     \houduanniu\web\View::getEngine()->setDirectory(__DIR__ . '/templates/');
     \houduanniu\web\View::getEngine()->setFileExtension('tpl');

@@ -31,7 +31,6 @@ class Request
     public function __construct($config = array())
     {
         $this->config = !empty($config) ? array_merge($this->config, $config) : $this->config;
-//        print_g($this->config);
     }
 
     public function __get($name)
