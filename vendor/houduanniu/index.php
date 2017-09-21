@@ -53,9 +53,17 @@ $register = new \houduanniu\base\Register();
 
 #注册自动加载类
 require __VENDOR__ . '/Aura.Autoload-2.x/src/Loader.php';
-$register->set('autoloader', new \Aura\Autoload\Loader());
-$register->get('autoloader')->register();
-$register->get('autoloader')->setPrefixes(require(__VENDOR__ . '/classMap.php'));
+require __VENDOR__ . '/Pimple-master/src/Pimple/Container.php';
+$container = new \Pimple\Container();
+$container['loader']=function($c){
+    return new \Aura\Autoload\Loader();
+};
+$container['loader']->register();
+print_g(get_class_methods($container['loader']));
+$container['loader']->setPrefixes(require(__VENDOR__ . '/classMap.php'));
+//$register->set('autoloader', new \Aura\Autoload\Loader());
+//$register->get('autoloader')->register();
+//$register->get('autoloader')->setPrefixes(require(__VENDOR__ . '/classMap.php'));
 
 try {
     \houduanniu\base\Application::run($register);

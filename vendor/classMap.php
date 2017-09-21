@@ -26,4 +26,6 @@ return array(
     #模版引擎
     'League\Plates' => __VENDOR__ . '/thephpleague/plates/src',
     /****************************核心库文件 结束***************************/
+    #A small PHP 5.3 dependency injection container http://pimple.sensiolabs.org
+    'Pimple' => __VENDOR__ . '/Pimple-master/src/Pimple',
 );

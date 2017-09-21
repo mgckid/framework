@@ -10,10 +10,12 @@ namespace app\controller;
 
 
 use houduanniu\web\Controller;
+use Pimple\Container;
 
 class IndexController extends Controller
 {
-    public function index(){
+    public function index()
+    {
 
     }
 } 
