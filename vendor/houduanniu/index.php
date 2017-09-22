@@ -83,9 +83,38 @@ try {
         return new \Overtrue\Validation\Factory(new \Overtrue\Validation\Translator($lang));
     };
 
+    #注册session组件
+    $container['session'] = function ($c) {
+        return (new \Aura\Session\SessionFactory())->newInstance($_COOKIE);
+    };
+
+    #注册session segment组件
+    $container['segment'] = function ($c) {
+        $session = $c['session'];
+        $session->setCookieParams(array('lifetime' => 1800 * 24));
+        $segment_key = \houduanniu\base\Application::config()->get('SEGMENT_KEY');
+        return $session->getSegment($segment_key);
+    };
+
     #注册路由数据
     $request_data = $container['request']->run();
     $container['request_data'] = $request_data;
+
+    #应用模块常量
+    defined('MODULE_NAME') or define('MODULE_NAME', $request_data['module']);
+    #应用模块常量
+    defined('CONTROLLER_NAME') or define('CONTROLLER_NAME', $request_data['controller']);
+    #应用模块常量
+    defined('ACTION_NAME') or define('ACTION_NAME', $request_data['action']);
+
+    #载入应用
+    $appPath = array(
+        __PROJECT__ . '/' . strtolower($request_data['module']),
+        __PROJECT__ . '/common',
+    );
+    $loader->addPrefix('app', $appPath);
+
+    #运行应用
     \houduanniu\base\Application::run($container);
 } catch (\Exception $e) {
     \houduanniu\web\View::getEngine()->setDirectory(__DIR__ . '/templates/');

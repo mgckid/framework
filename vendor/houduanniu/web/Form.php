@@ -132,7 +132,7 @@ class Form
     {
         $form_schema = self::getInstance()->form_schema;
         $form_data = self::getInstance()->form_data;
-        $action = !empty(self::getInstance()->action) ? self::getInstance()->action : U(Application::getController() . '/' . Application::getAction());
+        $action = !empty(self::getInstance()->action) ? self::getInstance()->action : U(CONTROLLER_NAME . '/' . ACTION_NAME);
         $form_name = self::getInstance()->form_name;
         $method = self::getInstance()->method;
         $form_class = self::getInstance()->form_class;

@@ -38,4 +38,7 @@ return array(
 	
 	#验证类(Laravel Validation 简化无依赖版)
     'Overtrue\Validation' => __VENDOR__ . '/overtrue/validation/src',
+
+    #session 会话管理类
+    'Aura\Session' => __VENDOR__ . '/Aura.Session-2.x/src',
 );

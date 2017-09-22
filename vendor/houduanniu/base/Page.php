@@ -190,7 +190,7 @@ EOT;
             $_get = $_GET;
             $_get['p'] = $p;
               $requestUrl = preg_replace("[\/p\/\d*]", '', $_SERVER['REQUEST_URI']);  //去掉p
-//            $requestUrl = join('/', [Application::getController(),Application::getAction()]);
+//            $requestUrl = join('/', [CONTROLLER_NAME,ACTION_NAME]);
 //            $requestUrl = U($requestUrl, $_get);
             $href = 'href="' . $requestUrl . '"';
         }

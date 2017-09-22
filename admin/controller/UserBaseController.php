@@ -22,6 +22,7 @@ class UserBaseController extends BaseController
 
     public function __construct()
     {
+
         parent::__construct();
         $this->checkLogin();
         if (!$this->checkPower()) {
@@ -51,7 +52,7 @@ class UserBaseController extends BaseController
     {
         $userId = $this->getInfo('loginInfo')['user_id'];
         if (!$access) {
-            $access = strtolower(Application::getController() . '/' . Application::getAction());
+            $access = strtolower(CONTROLLER_NAME . '/' . ACTION_NAME);
         } else {
             $access = trim(strtolower($access), '/');
         }
@@ -131,7 +132,7 @@ class UserBaseController extends BaseController
             ->find_array();
         foreach ($list as $k => $v) {
             $v['url'] = U($v['controller'] . '/' . $v['action']);
-            $v['active'] = strtolower(Application::getController()) == strtolower($v['controller']) ? 'active menu-open' : '';
+            $v['active'] = strtolower(CONTROLLER_NAME) == strtolower($v['controller']) ? 'active menu-open' : '';
             $list[$k] = $v;
         }
         $shareData['menu'] = treeStructForLayer($list);

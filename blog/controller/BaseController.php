@@ -145,7 +145,7 @@ class BaseController extends Controller
             $reg['siteNavgation'] = $result['data'];
         }
         View::addData($reg);
-        View::setDirectory(__PROJECT__ . '/' . strtolower(Application::getModule()) . '/' . C('DIR_VIEW'));
+        View::setDirectory(__PROJECT__ . '/' . strtolower(MODULE_NAME) . '/' . C('DIR_VIEW'));
         View::display($view, $data);
     }
 

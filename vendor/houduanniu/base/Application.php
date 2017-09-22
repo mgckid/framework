@@ -32,19 +32,10 @@ class Application
      */
     public static function run($container)
     {
-        $config = $container['config'];
         $request_data = $container['request_data'];
-        $loader = $container['loader'];
-        #载入应用
-        $appPath = array(
-            __PROJECT__ . '/' . strtolower($request_data['module']),
-            __PROJECT__ . '/common',
-        );
-        $loader->addPrefix('app', $appPath);
-
         self::getInstance()->container = $container;
         #运行程序
-        $controller_name = 'app\\' . $config->get('DIR_CONTROLLER') . '\\' . $request_data['controller'] . $config->get('EXT_CONTROLLER');
+        $controller_name = 'app\\' . self::config()->get('DIR_CONTROLLER') . '\\' . $request_data['controller'] .self::config()->get('EXT_CONTROLLER');
         if (!class_exists($controller_name)) {
             throw new NotFoundException('控制器不存在');
         } elseif (!method_exists($controller_name, $request_data['action'])) {
@@ -88,20 +79,6 @@ class Application
 
 
     /**
-     * 会话组件
-     * @return  Session
-     */
-    static public function session()
-    {
-        if (!self::register()->has('session')) {
-            $session_factory = new SessionFactory();
-            self::register()->set('session', $session_factory->newInstance($_COOKIE));
-        }
-        return self::register()->get('session');
-    }
-
-
-    /**
      * 缓存组件
      * @return  Cache
      */
@@ -127,8 +104,27 @@ class Application
      * @since
      * @abstract
      */
-    static function validation(){
+    static function validation()
+    {
         return self::container()['validation'];
+    }
+
+    /**
+     * 会话组件
+     * @return  \Aura\Session\Session
+     */
+    static public function session()
+    {
+        return self::container()['session'];
+    }
+
+    /**
+     * session 分片
+     * @return Segment
+     */
+    static function segment()
+    {
+        return self::container()['segment'];
     }
 
 

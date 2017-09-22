@@ -67,6 +67,8 @@ class Config extends \Noodlehaus\Config
                 'www' => 'home'
             ],
             /*http请求设置 结束*/
+
+            'SEGMENT_KEY'=>'dsahgdjshgdjshgdjshgd',
         );
     }
 }

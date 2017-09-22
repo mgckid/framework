@@ -5,13 +5,13 @@
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">MAIN NAVIGATION</li>
-            <li class="<?= strtolower(\houduanniu\base\Application::getController())=='index'?' active menu-open':'' ?>">
+            <li class="<?= strtolower(\houduanniu\base\CONTROLLER_NAME)=='index'?' active menu-open':'' ?>">
                 <a href="/">
                     <i class="fa fa-home"></i> <span>后台首页</span>
                 </a>
             </li>
             <?php foreach ($menu as $v){?>
-                <li class="treeview  <?= strtolower(\houduanniu\base\Application::getController())==strtolower($v['controller'])?' active menu-open':'' ?> ">
+                <li class="treeview  <?= strtolower(\houduanniu\base\CONTROLLER_NAME)==strtolower($v['controller'])?' active menu-open':'' ?> ">
                     <a href="javascript:void(0);">
                         <i class="fa fa-laptop"></i>
                         <span><?= $v['access_name'] ?></span>
@@ -21,7 +21,7 @@
                     </a>
                     <ul class="treeview-menu">
                         <?php foreach ($v['sub'] as $val) {?>
-                            <li class="<?= strtolower(\houduanniu\base\Application::getController().\houduanniu\base\Application::getAction())==strtolower($val['controller'].$val['action'])?'active':'' ?>"><a href="<?= $val['url'] ?>"><i class="fa fa-circle-o"></i><?= $val['access_name'] ?></a></li>
+                            <li class="<?= strtolower(\houduanniu\base\CONTROLLER_NAME.\houduanniu\base\ACTION_NAME)==strtolower($val['controller'].$val['action'])?'active':'' ?>"><a href="<?= $val['url'] ?>"><i class="fa fa-circle-o"></i><?= $val['access_name'] ?></a></li>
                         <?php }?>
                     </ul>
                 </li>
