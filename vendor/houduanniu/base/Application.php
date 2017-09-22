@@ -62,7 +62,7 @@ class Application
      * 获取类注册器
      * @return Register
      */
-    static public function Container()
+    static public function container()
     {
         return self::getInstance()->container;
     }
@@ -74,7 +74,7 @@ class Application
     static function config()
     {
 
-        return self::Container()['config'];
+        return self::container()['config'];
     }
 
 

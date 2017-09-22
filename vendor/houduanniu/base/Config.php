@@ -61,14 +61,16 @@ class Config extends \Noodlehaus\Config
             'VAR_MODULE' => 'm',
             'VAR_ROUTE' => 'route',
             /*子域名泛解析设置*/
-            'MAIN_DOMAIN' =>'',
+            'MAIN_DOMAIN' => '',
             'SUB_DOMAIN_OPEN' => true,
             'SUB_DOMAIN_RULES' => [
                 'www' => 'home'
             ],
             /*http请求设置 结束*/
 
-            'SEGMENT_KEY'=>'dsahgdjshgdjshgdjshgd',
+            'SEGMENT_KEY' => 'dsahgdjshgdjshgdjshgd',
+            /*模版主题*/
+            'THEME' => 'default',
         );
     }
 }

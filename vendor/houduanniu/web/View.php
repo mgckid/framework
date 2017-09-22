@@ -9,13 +9,13 @@
 namespace houduanniu\web;
 
 use Exceptions\Http\Server\InternalServerErrorException;
+use houduanniu\base\Application;
 use League\Plates\Engine;
 
 class View
 {
 
     protected static $instance;
-    protected $engineObj;
     protected $viewDir;
     protected $data = [];
 
@@ -32,7 +32,6 @@ class View
     {
         if (!self::$instance) {
             self::$instance = new self;
-            self::$instance->engineObj = new Engine();
         }
         return self::$instance;
     }
@@ -43,7 +42,7 @@ class View
      */
     static function getEngine()
     {
-        return self::getInstance()->engineObj;
+       return Application::container()['template_engine'];
     }
 
 

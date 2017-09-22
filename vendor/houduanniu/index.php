@@ -96,6 +96,12 @@ try {
         return $session->getSegment($segment_key);
     };
 
+    #注册模版引擎n组件
+    $container['template_engine'] = function ($c) {
+        return new \League\Plates\Engine();
+    };
+
+
     #注册路由数据
     $request_data = $container['request']->run();
     $container['request_data'] = $request_data;
@@ -107,12 +113,22 @@ try {
     #应用模块常量
     defined('ACTION_NAME') or define('ACTION_NAME', $request_data['action']);
 
-    #载入应用
+    #添加应用类文件加载位置
     $appPath = array(
         __PROJECT__ . '/' . strtolower($request_data['module']),
         __PROJECT__ . '/common',
     );
     $loader->addPrefix('app', $appPath);
+    #添加应用配置
+    if(is_dir(__PROJECT__ . '/' . MODULE_NAME . '/config')){
+        $container['config'] = function ($c) {
+            $config_path = [
+                __PROJECT__ . '/common/config',
+                __PROJECT__ . '/' . MODULE_NAME . '/config',
+            ];
+            return new \houduanniu\base\Config($config_path);
+        };
+    }
 
     #运行应用
     \houduanniu\base\Application::run($container);
