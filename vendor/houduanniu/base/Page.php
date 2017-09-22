@@ -189,9 +189,9 @@ EOT;
 
             $_get = $_GET;
             $_get['p'] = $p;
-            //  $requestUrl = preg_replace("[\/p\/\d*]", '', $requestUrl);  //去掉p
-            $requestUrl = join('/', [Application::getController(),Application::getAction()]);
-            $requestUrl = U($requestUrl, $_get);
+              $requestUrl = preg_replace("[\/p\/\d*]", '', $_SERVER['REQUEST_URI']);  //去掉p
+//            $requestUrl = join('/', [Application::getController(),Application::getAction()]);
+//            $requestUrl = U($requestUrl, $_get);
             $href = 'href="' . $requestUrl . '"';
         }
         return $href;

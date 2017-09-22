@@ -42,6 +42,7 @@ class Application
         );
         $loader->addPrefix('app', $appPath);
 
+        self::getInstance()->container = $container;
         #运行程序
         $controller_name = 'app\\' . $config->get('DIR_CONTROLLER') . '\\' . $request_data['controller'] . $config->get('EXT_CONTROLLER');
         if (!class_exists($controller_name)) {
@@ -50,7 +51,6 @@ class Application
             throw new NotFoundException('方法不存在');
         } else {
             #执行方法
-            self::getInstance()->container = $container;
             call_user_func(array(new $controller_name, $request_data['action']));
         }
     }
@@ -71,8 +71,65 @@ class Application
      * 获取类注册器
      * @return Register
      */
-    static public function getContainer()
+    static public function Container()
     {
         return self::getInstance()->container;
     }
+
+    /**
+     * 回话组件
+     * @return  Config
+     */
+    static function config()
+    {
+
+        return self::Container()['config'];
+    }
+
+
+    /**
+     * 会话组件
+     * @return  Session
+     */
+    static public function session()
+    {
+        if (!self::register()->has('session')) {
+            $session_factory = new SessionFactory();
+            self::register()->set('session', $session_factory->newInstance($_COOKIE));
+        }
+        return self::register()->get('session');
+    }
+
+
+    /**
+     * 缓存组件
+     * @return  Cache
+     */
+    static function cache($cache_name = null)
+    {
+        return self::container()['cache']->setCache($cache_name);
+    }
+
+
+    /**
+     * curl组件
+     * @return \Curl\Curl
+     */
+    static function curl()
+    {
+        return self::container()['curl'];
+    }
+
+    /**
+     * @access public
+     * @author furong
+     * @return \Overtrue\Validation\Factory
+     * @since
+     * @abstract
+     */
+    static function validation(){
+        return self::container()['validation'];
+    }
+
+
 }

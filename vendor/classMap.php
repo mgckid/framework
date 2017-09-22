@@ -31,5 +31,11 @@ return array(
     'Pimple' => __VENDOR__ . '/Pimple-master/src/Pimple',
 
     #异常类 A small library that aims at supplementing default exceptions in PHP
-    'Exceptions' => __VENDOR__ . '/standard-exceptions-master/Exceptions'
+    'Exceptions' => __VENDOR__ . '/standard-exceptions-master/Exceptions',
+
+    #PHP Curl Class makes it easy to send HTTP requests and integrate with web APIs https://www.phpcurlclass.com/
+    'Curl' => __VENDOR__ . '/php-curl-class-master/src/Curl',
+	
+	#验证类(Laravel Validation 简化无依赖版)
+    'Overtrue\Validation' => __VENDOR__ . '/overtrue/validation/src',
 );

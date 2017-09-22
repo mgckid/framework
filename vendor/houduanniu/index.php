@@ -71,9 +71,21 @@ try {
         return (new \houduanniu\base\Cache())->setCachePath(__PROJECT__ . '/cache/');
     };
 
+    #注册curl组件
+    $container['curl'] = function ($c) {
+        return new \Curl\Curl();
+    };
+
+    #注册curl组件
+    $container['validation'] = function ($c) {
+        require __VENDOR__ . '/overtrue/validation/src/helpers.php';
+        $lang = require __VENDOR__ . '/overtrue/zh-CN/validation.php';
+        return new \Overtrue\Validation\Factory(new \Overtrue\Validation\Translator($lang));
+    };
+
     #注册路由数据
     $request_data = $container['request']->run();
-    $container['request_data']=$request_data;
+    $container['request_data'] = $request_data;
     \houduanniu\base\Application::run($container);
 } catch (\Exception $e) {
     \houduanniu\web\View::getEngine()->setDirectory(__DIR__ . '/templates/');

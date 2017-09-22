@@ -17,10 +17,7 @@ use houduanniu\base\Application;
 
 class Model
 {
-    /**
-     * @var object Laravel Validation 简化无依赖版 验证器对象
-     */
-    protected $validation;
+
     /**
      * @var string  模型表名
      */
@@ -197,7 +194,7 @@ class Model
     }
 
     /**
-     * 模型验证对象
+     * 模型验证对象 Laravel Validation 简化无依赖版 验证器对象
      * @access public
      * @author furong
      * @return Factory
@@ -206,12 +203,7 @@ class Model
      */
     public function validate()
     {
-        if (empty($this->validation)) {
-            require __VENDOR__ . '/overtrue/validation/src/helpers.php';
-            $lang = require __VENDOR__ . '/overtrue/zh-CN/validation.php';
-            $this->validation = new Factory(new Translator($lang));
-        }
-        return $this->validation;
+        return  Application::validation();
     }
 
     public function setMessage($msg)
