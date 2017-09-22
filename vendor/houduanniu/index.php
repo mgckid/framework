@@ -71,13 +71,9 @@ try {
         return (new \houduanniu\base\Cache())->setCachePath(__PROJECT__ . '/cache/');
     };
 
-    #应用加载
+    #注册路由数据
     $request_data = $container['request']->run();
-    $appPath = array(
-        __PROJECT__ . '/' . strtolower($request_data['module']),
-        __PROJECT__ . '/common',
-    );
-    $loader->addPrefix('app', $appPath);
+    $container['request_data']=$request_data;
     \houduanniu\base\Application::run($container);
 } catch (\Exception $e) {
     \houduanniu\web\View::getEngine()->setDirectory(__DIR__ . '/templates/');

@@ -12,32 +12,50 @@ namespace houduanniu\base;
 class Request
 {
 
-    private $config = array(
-        'URL_MODE' => 2,
-        'DEFAULT_MODULE' => 'Home',
-        'DEFAULT_CONTROLLER' => 'Index',
-        'DEFAULT_ACTION' => 'index',
-        'VAR_MODULE' => 'm',
-        'VAR_CONTROLLER' => 'c',
-        'VAR_ACTION' => 'a',
-        'VAR_ROUTE' => 'route',
-        'MAIN_DOMAIN'=>'',
-        'SUB_DOMAIN_OPEN' => false,
-        'SUB_DOMAIN_RULES' => [
-            'www' => 'home'
-        ]
-    );
+    protected $url_mode = 2;
+    protected $default_module = 'home';
+    protected $default_controller = 'Index';
+    protected $default_action = 'index';
+    protected $var_module = 'm';
+    protected $var_controller = 'c';
+    protected $var_action = 'a';
+    protected $var_route = 'route';
+    protected $main_domain = '';
+    protected $sub_domain_open = true;
+    protected $sub_domain_rule = [
+        'www' => 'home'
+    ];
 
     public function __construct($config = array())
     {
-        $this->config = !empty($config) ? array_merge($this->config, $config) : $this->config;
+        #初始化配置
+        $this->url_mode = isset($config['URL_MODE']) && is_int($config['URL_MODE']) ? $config['URL_MODE'] : $this->url_mode;
+        $this->default_module = isset($config['DEFAULT_MODULE']) && !empty($config['DEFAULT_MODULE']) ? $config['DEFAULT_MODULE'] : $this->default_module;
+        $this->default_controller = isset($config['DEFAULT_CONTROLLER']) && !empty($config['DEFAULT_CONTROLLER']) ? $config['DEFAULT_CONTROLLER'] : $this->default_controller;
+        $this->default_action = isset($config['DEFAULT_ACTION']) && !empty($config['DEFAULT_ACTION']) ? $config['DEFAULT_ACTION'] : $this->default_action;
+        $this->var_module = isset($config['VAR_MODULE']) && !empty($config['VAR_MODULE']) ? $config['VAR_MODULE'] : $this->var_module;
+        $this->var_controller = isset($config['VAR_CONTROLLER']) && !empty($config['VAR_CONTROLLER']) ? $config['VAR_CONTROLLER'] : $this->var_controller;
+        $this->var_action = isset($config['VAR_ACTION']) && !empty($config['VAR_ACTION']) ? $config['VAR_ACTION'] : $this->var_action;
+        $this->var_route = isset($config['VAR_ROUTE']) && !empty($config['VAR_ROUTE']) ? $config['VAR_ROUTE'] : $this->var_route;
+        $this->sub_domain_open = isset($config['SUB_DOMAIN_OPEN']) && is_bool($config['SUB_DOMAIN_OPEN']) ? $config['SUB_DOMAIN_OPEN'] : $this->sub_domain_open;
+        $this->sub_domain_rule = isset($config['SUB_DOMAIN_RULES']) && !empty($config['SUB_DOMAIN_RULES']) ? $config['SUB_DOMAIN_RULES'] : $this->sub_domain_rule;
+        $this->main_domain = isset($config['MAIN_DOMAIN']) && !empty($config['MAIN_DOMAIN']) ? $config['MAIN_DOMAIN'] : $this->getMainDomain();
     }
 
-    public function __get($name)
+    protected function getMainDomain()
     {
-        return $this->config[$name];
+        $main_domain = '';
+        if ($this->sub_domain_open) {
+            $http_host = $_SERVER['HTTP_HOST'];
+            $_http_host = explode('.', $http_host);
+            $main_domain = implode('.', array_reverse(array_slice(array_reverse($_http_host), 0, 2)));
+            if (strpos($main_domain, ':') !== false) {
+                $_main_domain = explode(':', $main_domain);
+                $main_domain = $_main_domain[0];
+            }
+        }
+        return $main_domain;
     }
-
 
     /**
      * 打包参数
@@ -50,15 +68,15 @@ class Request
         if (isset($_SERVER['PATH_INFO']) && !empty($_SERVER['PATH_INFO'])) {
             $data = $this->dispatchByPathinfo($_SERVER['PATH_INFO']);
         } elseif (isset($_SERVER['QUERY_STRING']) && !empty($_SERVER['QUERY_STRING'])) {
-            if (false !== strpos($_SERVER['QUERY_STRING'], $this->config['VAR_ROUTE'] . '=')) {
+            if (false !== strpos($_SERVER['QUERY_STRING'], $this->var_route . '=')) {
                 $data = $this->dispatchByCompromise($_SERVER['QUERY_STRING']);
-            } elseif (isset($_REQUEST[$this->config['VAR_MODULE']]) || isset($_REQUEST[$this->config['VAR_CONTROLLER']]) || isset($_REQUEST[$this->config['VAR_ACTION']])) {
+            } elseif (isset($_REQUEST[$this->var_module]) || isset($_REQUEST[$this->var_controller]) || isset($_REQUEST[$this->var_action])) {
                 $data = $this->dispatchByDynamic();
             }
         }
         #指定打包方式
         if (empty($data)) {
-            switch ($this->URL_MODE) {
+            switch ($this->url_mode) {
                 #动态模式
                 case 0:
                     $data = $this->dispatchByDynamic();
@@ -76,16 +94,16 @@ class Request
             }
         }
         if (empty($data['module'])) {
-            if ($this->config['SUB_DOMAIN_OPEN']) {
-                $mainDomain = $this->config['MAIN_DOMAIN'];
+            if ($this->sub_domain_open) {
+                $mainDomain = $this->main_domain;
                 $subMain = strtolower(trim(str_replace($mainDomain, '', __HOST__), '.'));
-                $data['module'] = $this->config['SUB_DOMAIN_RULES'][$subMain];
+                $data['module'] = $this->sub_domain_rule[$subMain];
             } else {
-                $data['module'] = lcfirst($this->DEFAULT_MODULE);
+                $data['module'] = lcfirst($this->default_module);
             }
         }
-        $data['controller'] = empty($data['controller']) ? ucfirst($this->DEFAULT_CONTROLLER) : ucfirst($data['controller']);
-        $data['action'] = empty($data['action']) ? lcfirst($this->DEFAULT_ACTION) : lcfirst($data['action']);
+        $data['controller'] = empty($data['controller']) ? ucfirst($this->default_controller) : ucfirst($data['controller']);
+        $data['action'] = empty($data['action']) ? lcfirst($this->default_action) : lcfirst($data['action']);
         return $data;
     }
 
@@ -148,15 +166,15 @@ class Request
             $_request = explode('&', $request);
             unset($request);
             foreach ($_request as $value) {
-                if(empty($value)){
+                if (empty($value)) {
                     continue;
                 }
                 $param = explode('=', $value);
                 $request[$param[0]] = $param[1];
             }
-            $route = explode('/', $request[$this->config['VAR_ROUTE']]);
+            $route = explode('/', $request[$this->var_route]);
             if (!empty($route)) {
-                if (empty($this->config['SUB_DOMAIN_OPEN']) and empty($this->DEFAULT_MODULE)) {
+                if (empty($this->sub_domain_open) and empty($this->default_module)) {
                     $data['module'] = current(array_splice($route, 0, 1));
                 }
             }
@@ -167,7 +185,7 @@ class Request
             if (!empty($route)) {
                 $data['action'] = current(array_splice($route, 0, 1));
             }
-            unset($request[$this->config['VAR_ROUTE']]);
+            unset($request[$this->var_route]);
             array_merge($_REQUEST, $request);
             array_merge($_GET, $request);
         }
@@ -187,35 +205,23 @@ class Request
             'controller' => '',
             'action' => '',
         );
-        if (isset($_REQUEST[$this->VAR_MODULE]) && !empty($_REQUEST[$this->VAR_MODULE])) {
-            $data['module'] = $_REQUEST[$this->VAR_MODULE];
-            unset($_GET[$this->VAR_MODULE]);
-            unset($_REQUEST[$this->VAR_MODULE]);
+        if (isset($_REQUEST[$this->var_module]) && !empty($_REQUEST[$this->var_module])) {
+            $data['module'] = $_REQUEST[$this->var_module];
+            unset($_GET[$this->var_module]);
+            unset($_REQUEST[$this->var_module]);
         }
-        if (isset($_REQUEST[$this->VAR_CONTROLLER]) && !empty($_REQUEST[$this->VAR_CONTROLLER])) {
-            $data['controller'] = $_REQUEST[$this->VAR_CONTROLLER];
-            unset($_GET[$this->VAR_CONTROLLER]);
-            unset($_REQUEST[$this->VAR_CONTROLLER]);
+        if (isset($_REQUEST[$this->var_controller]) && !empty($_REQUEST[$this->var_controller])) {
+            $data['controller'] = $_REQUEST[$this->var_controller];
+            unset($_GET[$this->var_controller]);
+            unset($_REQUEST[$this->var_controller]);
         }
-        if (isset($_REQUEST[$this->VAR_ACTION]) && !empty($_REQUEST[$this->VAR_ACTION])) {
-            $data['action'] = $_REQUEST[$this->VAR_ACTION];
-            unset($_GET[$this->VAR_ACTION]);
-            unset($_REQUEST[$this->VAR_ACTION]);
+        if (isset($_REQUEST[$this->var_action]) && !empty($_REQUEST[$this->var_action])) {
+            $data['action'] = $_REQUEST[$this->var_action];
+            unset($_GET[$this->var_action]);
+            unset($_REQUEST[$this->var_action]);
         }
         return $data;
     }
 
-    public function config($name, $value = NULL)
-    {
-        if (is_array($name)) {
-            array_walk($name, function ($v, $k) {
-                $this->config[$k] = $v;
-            });
-        } else {
-            if (array_key_exists($name, $this->config)) {
-                $this->config[$name] = $value;
-            }
-        }
-    }
 
 }

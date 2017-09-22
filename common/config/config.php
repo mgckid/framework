@@ -11,23 +11,18 @@ return array(
     #图片尺寸
     'IMAGE_SIZE' => array('_120_75', '_160_100', '_300_185', '_250_155', '_320_200'),
     #运行环境 develop|product
-    'ENVIRONMENT' => '__ENVIRONMENT__',
+    'ENVIRONMENT' => __ENVIRONMENT__,
 
     /*http请求设置 开始*/
     /* URL设置 */
     'URL_MODE' => 2, //url访问模式  0：默认动态url传参模式 1：pathinfo模式 2:兼容模式
     /*子域名泛解析设置*/
-    'MAIN_DOMAIN'=>'fff.me',
     'SUB_DOMAIN_OPEN' => true,
     'SUB_DOMAIN_RULES' => [
         'www' => 'home',
     ],
     /*http请求设置 结束*/
 
-    /*自定义载入文件*/
-    'LOAD_FILES' => [
-        __PROJECT__ . '/common/function/function.php'
-    ],
 
     /*Ueditor自定义配置 开始*/
     'UEDITOR_CONFIG' => array(

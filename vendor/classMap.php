@@ -26,6 +26,10 @@ return array(
     #模版引擎
     'League\Plates' => __VENDOR__ . '/thephpleague/plates/src',
     /****************************核心库文件 结束***************************/
+
     #A small PHP 5.3 dependency injection container http://pimple.sensiolabs.org
     'Pimple' => __VENDOR__ . '/Pimple-master/src/Pimple',
+
+    #异常类 A small library that aims at supplementing default exceptions in PHP
+    'Exceptions' => __VENDOR__ . '/standard-exceptions-master/Exceptions'
 );

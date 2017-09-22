@@ -45,9 +45,6 @@ class Config extends \Noodlehaus\Config
             'DIR_CONTROLLER' => 'controller',
             'DIR_MODEL' => 'model',
             'DIR_VIEW' => 'view',
-            'THEME' => 'default',
-            #session 分片默认key
-            'SEGMENT_KEY' => 'dsdhskjdhskjdhksjds',
             /*应用设置 结束*/
 
             /*http请求设置 开始*/
@@ -70,11 +67,6 @@ class Config extends \Noodlehaus\Config
                 'www' => 'home'
             ],
             /*http请求设置 结束*/
-
-            /*自定义载入文件*/
-            'LOAD_FILES' => [
-
-            ]
         );
     }
 }

@@ -9,17 +9,12 @@
 namespace houduanniu\base;
 
 
-use Aura\Session\SessionFactory;
-use Aura\Session\Session;
-use Aura\Session\Segment;
 use Exceptions\Http\Client\NotFoundException;
 
 class Application
 {
     protected static $instance;
     protected $container;
-    protected $message;
-    protected $info;
 
     private function __construct()
     {
@@ -37,10 +32,16 @@ class Application
      */
     public static function run($container)
     {
-        self::getInstance()->container = $container;
-
         $config = $container['config'];
-        $request_data = $container['request']->run();
+        $request_data = $container['request_data'];
+        $loader = $container['loader'];
+        #载入应用
+        $appPath = array(
+            __PROJECT__ . '/' . strtolower($request_data['module']),
+            __PROJECT__ . '/common',
+        );
+        $loader->addPrefix('app', $appPath);
+
         #运行程序
         $controller_name = 'app\\' . $config->get('DIR_CONTROLLER') . '\\' . $request_data['controller'] . $config->get('EXT_CONTROLLER');
         if (!class_exists($controller_name)) {
@@ -49,6 +50,7 @@ class Application
             throw new NotFoundException('方法不存在');
         } else {
             #执行方法
+            self::getInstance()->container = $container;
             call_user_func(array(new $controller_name, $request_data['action']));
         }
     }
