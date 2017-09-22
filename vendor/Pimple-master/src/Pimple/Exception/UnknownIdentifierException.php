@@ -33,7 +33,7 @@ use Psr\Container\NotFoundExceptionInterface;
  *
  * @author Pascal Luna <skalpa@zetareticuli.org>
  */
-class UnknownIdentifierException extends \InvalidArgumentException implements NotFoundExceptionInterface
+class UnknownIdentifierException extends \InvalidArgumentException
 {
     /**
      * @param string $id The unknown identifier

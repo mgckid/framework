@@ -38,7 +38,6 @@ class BaseController extends Controller
      */
     public function display($view, $data = array())
     {
-        print_g(__PROJECT__ . '/' . strtolower(MODULE_NAME) . '/' . C('DIR_VIEW') . '/' . C('THEME'));
         View::setDirectory(__PROJECT__ . '/' . strtolower(MODULE_NAME) . '/' . C('DIR_VIEW') . '/' . C('THEME'));
         View::display($view, $data);
     }

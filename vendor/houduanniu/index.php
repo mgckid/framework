@@ -32,6 +32,7 @@ defined('__HOST__') or define('__HOST__', $_SERVER['HTTP_HOST']);
 require __FRAMEWORK__ . '/function.php';
 
 
+
 #错误报告级别(默认全部)
 if (__ENVIRONMENT__ == 'develop') {
     error_reporting(E_ALL);
@@ -46,10 +47,10 @@ if (__ENVIRONMENT__ == 'develop') {
 #时区设置
 date_default_timezone_set('PRC');
 try {
-    #注册自动加载类
     require __VENDOR__ . '/Aura.Autoload-2.x/src/Loader.php';
     require __VENDOR__ . '/Pimple-master/src/Pimple/Container.php';
     $container = new \Pimple\Container();
+    #注册自动加载类
     $container['loader'] = function ($c) {
         return new \Aura\Autoload\Loader();
     };
@@ -76,7 +77,12 @@ try {
         return new \Curl\Curl();
     };
 
-    #注册curl组件
+    #注册模版引擎n组件
+    $container['template_engine'] = function ($c) {
+        return new \League\Plates\Engine();
+    };
+
+    #注册验证器组件
     $container['validation'] = function ($c) {
         require __VENDOR__ . '/overtrue/validation/src/helpers.php';
         $lang = require __VENDOR__ . '/overtrue/zh-CN/validation.php';
@@ -92,13 +98,8 @@ try {
     $container['segment'] = function ($c) {
         $session = $c['session'];
         $session->setCookieParams(array('lifetime' => 1800 * 24));
-        $segment_key = \houduanniu\base\Application::config()->get('SEGMENT_KEY');
+        $segment_key = $c['config']->get('SEGMENT_KEY');
         return $session->getSegment($segment_key);
-    };
-
-    #注册模版引擎n组件
-    $container['template_engine'] = function ($c) {
-        return new \League\Plates\Engine();
     };
 
 
@@ -119,8 +120,10 @@ try {
         __PROJECT__ . '/common',
     );
     $loader->addPrefix('app', $appPath);
+
     #添加应用配置
-    if(is_dir(__PROJECT__ . '/' . MODULE_NAME . '/config')){
+    if (is_dir(__PROJECT__ . '/' . MODULE_NAME . '/config')) {
+        unset($container['config']);
         $container['config'] = function ($c) {
             $config_path = [
                 __PROJECT__ . '/common/config',
@@ -129,13 +132,13 @@ try {
             return new \houduanniu\base\Config($config_path);
         };
     }
-
     #运行应用
     \houduanniu\base\Application::run($container);
 } catch (\Exception $e) {
-    \houduanniu\web\View::getEngine()->setDirectory(__DIR__ . '/templates/');
-    \houduanniu\web\View::getEngine()->setFileExtension('tpl');
-    \houduanniu\web\View::getEngine()->addData([
+    $engine =$container['template_engine'];
+    $engine->setDirectory(__DIR__ . '/templates/');
+    $engine->setFileExtension('tpl');
+    $engine->addData([
         'e' => [
             'code' => $e->getCode(),
             'file' => $e->getFile(),
@@ -145,5 +148,5 @@ try {
         ],
     ]);
     send_http_status($e->getCode());
-    die (\houduanniu\web\View::getEngine()->render('think_exception'));
+    die ($engine->render('think_exception'));
 };

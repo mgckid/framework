@@ -33,7 +33,7 @@ use Psr\Container\ContainerExceptionInterface;
  *
  * @author Pascal Luna <skalpa@zetareticuli.org>
  */
-class FrozenServiceException extends \RuntimeException implements ContainerExceptionInterface
+class FrozenServiceException extends \RuntimeException
 {
     /**
      * @param string $id Identifier of the frozen service
