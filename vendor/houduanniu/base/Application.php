@@ -10,7 +10,6 @@ namespace houduanniu\base;
 
 
 use Exceptions\Http\Client\NotFoundException;
-
 class Application
 {
     protected static $instance;
@@ -100,7 +99,7 @@ class Application
 
     /**
      * 获取类注册器
-     * @return Register
+     * @return \Pimple\Container
      */
     static public function container()
     {

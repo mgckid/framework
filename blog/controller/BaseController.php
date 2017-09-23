@@ -14,7 +14,6 @@ use Curl\Curl;
 use houduanniu\web\Controller;
 use houduanniu\web\View;
 use houduanniu\base\Application;
-use Requests;
 
 class BaseController extends Controller
 {
@@ -27,6 +26,7 @@ class BaseController extends Controller
     function __construct()
     {
         parent::__construct();
+        require_once(PROJECT_PATH . '/common/vendor/function.php');
         $this->imageSize = C('IMAGE_SIZE');
         $this->siteInfo = $this->getSiteInfo();
     }
@@ -57,6 +57,21 @@ class BaseController extends Controller
     }
 
     /**
+     * @return \Curl\Curl
+     */
+    public function curl()
+    {
+        $container = Application::container();
+        if (!isset($container['curl'])) {
+            #注册curl组件
+            $container['curl'] = function ($c) {
+                return new Curl();
+            };
+        }
+        return $container['curl'];
+    }
+
+    /**
      * 获取站点信息
      */
     public function getSiteInfo()
@@ -72,8 +87,7 @@ class BaseController extends Controller
     public function apiRequest($url, $data = [], $mode = 'Api', $method = 'get')
     {
 
-        $curl = new Curl();
-        print_g($curl);
+        $curl = $this->curl();
         if ($mode == 'Api') {
             $host = C('API_URL');
         }
@@ -85,7 +99,7 @@ class BaseController extends Controller
         $cache_name = $url;
         if ($method == 'get') {
             if (Application::cache($cache_name)->isCached($cache_key)) {
-               return Application::cache($cache_name)->retrieve($cache_key);
+                return Application::cache($cache_name)->retrieve($cache_key);
             }
         }
         $header = [];
@@ -93,18 +107,14 @@ class BaseController extends Controller
         if (ENVIRONMENT == 'develop') {
             $options['proxy'] = '127.0.0.1:7777';
         }
-        if (!class_exists('\Requests')) {
-            \Requests::register_autoloader();
-        }
         if ($method == 'get') {
             $url = $host . U($url, $data);
-            $response = \Requests::get($url, $header, $options);
+            $response = $curl->get($url);
         }
-
-        if (!$response->success) {
+        if (!is_object($response)) {
             die('接口请求错误');
         }
-        $result = is_array(json_decode($response->body, true)) ? json_decode($response->body, true) : $response->body;
+        $result = json_decode(json_encode($response), true);;
         #缓存数据
         if ($method == 'get') {
             if (isset($result['cached']) && $result['cached']) {
