@@ -12,33 +12,33 @@ return array(
      */
     /***************************核心库文件 开始****************************/
     #后端牛框架库文件
-    'houduanniu' => __VENDOR__ . '/houduanniu',
+    'houduanniu' => __DIR__ . '/houduanniu',
 
     #自动加载库
-    'Aura\Autoload' => __VENDOR__ . '/Aura.Autoload-2.x/src',
+    'Aura\Autoload' => __DIR__ . '/Aura.Autoload-2.x/src',
 
     #配置类(Config is a lightweight configuration file loader that supports PHP, INI, XML, JSON, and YAML files)
-    'Noodlehaus' => __VENDOR__ . '/hassankhan/config/src',
+    'Noodlehaus' => __DIR__ . '/hassankhan/config/src',
 
     #idiorm\orm类
-    'idiorm\orm' => __VENDOR__ . '/idiorm-master/src/idiorm/orm',
+    'idiorm\orm' => __DIR__ . '/idiorm-master/src/idiorm/orm',
 
     #模版引擎
-    'League\Plates' => __VENDOR__ . '/thephpleague/plates/src',
+    'League\Plates' => __DIR__ . '/thephpleague/plates/src',
     /****************************核心库文件 结束***************************/
 
     #A small PHP 5.3 dependency injection container http://pimple.sensiolabs.org
-    'Pimple' => __VENDOR__ . '/Pimple-master/src/Pimple',
+    'Pimple' => __DIR__ . '/Pimple-master/src/Pimple',
 
     #异常类 A small library that aims at supplementing default exceptions in PHP
-    'Exceptions' => __VENDOR__ . '/standard-exceptions-master/Exceptions',
+    'Exceptions' => __DIR__ . '/standard-exceptions-master/Exceptions',
 
     #PHP Curl Class makes it easy to send HTTP requests and integrate with web APIs https://www.phpcurlclass.com/
-    'Curl' => __VENDOR__ . '/php-curl-class-master/src/Curl',
-	
-	#验证类(Laravel Validation 简化无依赖版)
-    'Overtrue\Validation' => __VENDOR__ . '/overtrue/validation/src',
+    'Curl' => __DIR__ . '/php-curl-class-master/src/Curl',
+
+    #验证类(Laravel Validation 简化无依赖版)
+    'Overtrue\Validation' => __DIR__ . '/overtrue/validation/src',
 
     #session 会话管理类
-    'Aura\Session' => __VENDOR__ . '/Aura.Session-2.x/src',
+    'Aura\Session' => __DIR__ . '/Aura.Session-2.x/src',
 );

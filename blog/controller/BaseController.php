@@ -90,11 +90,11 @@ class BaseController extends Controller
         }
         $header = [];
         $options = [];
-        if (__ENVIRONMENT__ == 'develop') {
+        if (ENVIRONMENT == 'develop') {
             $options['proxy'] = '127.0.0.1:7777';
         }
         if (!class_exists('\Requests')) {
-            require_once(__VENDOR__ . '/Requests-master/library/Requests.php');
+            require_once(VENDOR_PATH . '/Requests-master/library/Requests.php');
             \Requests::register_autoloader();
         }
         if ($method == 'get') {
@@ -145,7 +145,7 @@ class BaseController extends Controller
             $reg['siteNavgation'] = $result['data'];
         }
         View::addData($reg);
-        View::setDirectory(__PROJECT__ . '/' . strtolower(MODULE_NAME) . '/' . C('DIR_VIEW'));
+        View::setDirectory(PROJECT_PATH . '/' . strtolower(MODULE_NAME) . '/' . C('DIR_VIEW'));
         View::display($view, $data);
     }
 

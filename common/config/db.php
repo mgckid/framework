@@ -5,7 +5,7 @@
  * Date: 2017/6/4
  * Time: 12:41
  */
-if (__ENVIRONMENT__ == 'develop') {
+if (ENVIRONMENT == 'develop') {
     return [
         //链接
         'MAIN_DOMAIN' => 'fff.me',
@@ -32,7 +32,7 @@ if (__ENVIRONMENT__ == 'develop') {
             ),
         ],
     ];
-}elseif(__ENVIRONMENT__ == 'product') {
+}elseif(ENVIRONMENT == 'product') {
     return [
         //链接
         'MAIN_DOMAIN' => 'houduanniu.com',

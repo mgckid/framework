@@ -7,7 +7,7 @@
  * Time: 上午11: 32
  * UEditor编辑器通用上传类
  */
-namespace app\library\Ueditor;
+namespace Ueditor;
 class Uploader
 {
     private $fileField; //文件域名
@@ -64,7 +64,7 @@ class Uploader
             $this->upFile();
         }
 
-      //  $this->stateMap['ERROR_TYPE_NOT_ALLOWED'] = iconv('unicode', 'utf-8', $this->stateMap['ERROR_TYPE_NOT_ALLOWED']);
+        //  $this->stateMap['ERROR_TYPE_NOT_ALLOWED'] = iconv('unicode', 'utf-8', $this->stateMap['ERROR_TYPE_NOT_ALLOWED']);
     }
 
     /**
@@ -321,9 +321,9 @@ class Uploader
         }
 
         //替换哈希命名
-        $randName = md5($randNum.time());
-        if(preg_match("/\{md5\}/i", $format, $matches)){
-            $format = str_replace($matches[0],$randName,$format);
+        $randName = md5($randNum . time());
+        if (preg_match("/\{md5\}/i", $format, $matches)) {
+            $format = str_replace($matches[0], $randName, $format);
         }
         $ext = $this->getFileExt();
         return $format . $ext;

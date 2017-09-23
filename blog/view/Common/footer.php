@@ -9,7 +9,7 @@
         </p>
     </div>
 </footer>
-<?php if(__ENVIRONMENT__=='product'):?>
+<?php if(ENVIRONMENT=='product'):?>
     <script type='text/javascript' src='https://cdn.bootcss.com/jquery/3.2.0/jquery.min.js'></script>
     <script type='text/javascript' src='https://cdn.bootcss.com/bootstrap/4.0.0-beta/js/bootstrap.min.js'></script>
 <?php else:?>

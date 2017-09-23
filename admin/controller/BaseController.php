@@ -22,7 +22,7 @@ class BaseController extends Controller
 
     public function __construct()
     {
-        require(__PROJECT__ . '/common/library/function.php');
+        require(PROJECT_PATH . '/common/vendor/function.php');
         $siteConfigModel = new SiteConfigModel();
         $result = $siteConfigModel->getConfigList([], 'name,value');
         $siteInfo = [];
@@ -39,7 +39,7 @@ class BaseController extends Controller
      */
     public function display($view, $data = array())
     {
-        View::setDirectory(__PROJECT__ . '/' . strtolower(MODULE_NAME) . '/' . C('DIR_VIEW') . '/' . C('THEME'));
+        View::setDirectory(PROJECT_PATH . '/' . strtolower(MODULE_NAME) . '/' . C('DIR_VIEW') . '/' . C('THEME'));
         View::display($view, $data);
     }
 

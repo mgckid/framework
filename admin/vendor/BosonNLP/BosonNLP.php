@@ -1,4 +1,5 @@
 <?php
+
 /**
  * 玻森中文语义开放平台语义分析API
  * Created by PhpStorm.
@@ -6,10 +7,7 @@
  * Date: 2017/4/8
  * Time: 9:34
  */
-
-namespace app\library;
-
-
+namespace BosonNLP;
 class BosonNLP
 {
     #玻森 注册用户token

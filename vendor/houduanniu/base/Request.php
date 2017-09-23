@@ -96,7 +96,7 @@ class Request
         if (empty($data['module'])) {
             if ($this->sub_domain_open) {
                 $mainDomain = $this->main_domain;
-                $subMain = strtolower(trim(str_replace($mainDomain, '', __HOST__), '.'));
+                $subMain = strtolower(trim(str_replace($mainDomain, '', HTTP_HOST), '.'));
                 $data['module'] = $this->sub_domain_rule[$subMain];
             } else {
                 $data['module'] = lcfirst($this->default_module);

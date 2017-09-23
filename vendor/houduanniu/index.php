@@ -11,7 +11,7 @@ header("content-type:text/html; charset=utf-8");
 
 /*框架常量设置 开始*/
 #框架运行开发模式
-defined('__ENVIRONMENT__') || define('__ENVIRONMENT__', 'develop');
+defined('ENVIRONMENT') || define('ENVIRONMENT', 'develop');
 #是否ajax请求
 define('IS_AJAX', isset($_SERVER["HTTP_X_REQUESTED_WITH"]) && strtolower($_SERVER["HTTP_X_REQUESTED_WITH"]) == "xmlhttprequest" ? true : FALSE);
 #是否get请求
@@ -19,36 +19,35 @@ define('IS_GET', strtolower($_SERVER['REQUEST_METHOD']) == 'get' ? true : false)
 #是否post请求
 define('IS_POST', ($_SERVER['REQUEST_METHOD'] == 'POST' && (empty($_SERVER['HTTP_REFERER']) || preg_replace("~https?:\/\/([^\:\/]+).*~i", "\\1", $_SERVER['HTTP_REFERER']) == preg_replace("~([^\:]+).*~", "\\1", $_SERVER['HTTP_HOST']))) ? true : FALSE);
 #项目路径
-defined('__PROJECT__') or define('__PROJECT__', dirname(dirname($_SERVER['DOCUMENT_ROOT'])));
+defined('PROJECT_PATH') or define('PROJECT_PATH', dirname(dirname($_SERVER['DOCUMENT_ROOT'])));
 #框架组件路径
-defined('__FRAMEWORK__') or define('__FRAMEWORK__', __DIR__);
+defined('FRAMEWORK_PATH') or define('FRAMEWORK_PATH', __DIR__);
 #框架组件路径
-defined('__VENDOR__') or define('__VENDOR__', dirname(__FRAMEWORK__));
+defined('VENDOR_PATH') or define('VENDOR_PATH', dirname(FRAMEWORK_PATH));
 #当前域名
-defined('__HOST__') or define('__HOST__', $_SERVER['HTTP_HOST']);
+defined('HTTP_HOST') or define('HTTP_HOST', $_SERVER['HTTP_HOST']);
 /*框架常量设置 结束*/
 
 #载入函数库
-require __FRAMEWORK__ . '/function.php';
-
+require FRAMEWORK_PATH . '/function.php';
 
 
 #错误报告级别(默认全部)
-if (__ENVIRONMENT__ == 'develop') {
+if (ENVIRONMENT == 'develop') {
     error_reporting(E_ALL);
     ini_set('display_errors', true);
-    ini_set('error_log', __PROJECT__ . '/log/phperror.txt');
-} elseif (__ENVIRONMENT__ == 'product') {
+    ini_set('error_log', PROJECT_PATH . '/log/phperror.txt');
+} elseif (ENVIRONMENT == 'product') {
     error_reporting(E_ALL ^ E_NOTICE);
     ini_set('display_errors', false);
-    ini_set('error_log', __PROJECT__ . '/log/phperror.txt');
+    ini_set('error_log', PROJECT_PATH . '/log/phperror.txt');
 }
 
 #时区设置
 date_default_timezone_set('PRC');
 try {
-    require __VENDOR__ . '/Aura.Autoload-2.x/src/Loader.php';
-    require __VENDOR__ . '/Pimple-master/src/Pimple/Container.php';
+    require VENDOR_PATH . '/Aura.Autoload-2.x/src/Loader.php';
+    require VENDOR_PATH . '/Pimple-master/src/Pimple/Container.php';
     $container = new \Pimple\Container();
     #注册自动加载类
     $container['loader'] = function ($c) {
@@ -56,7 +55,7 @@ try {
     };
     $loader = $container['loader'];
     $loader->register();
-    $loader->setPrefixes(require(__VENDOR__ . '/classMap.php'));
+    $loader->setPrefixes(require(VENDOR_PATH . '/class_map.php'));
 
     #注册http请求打包组件
     $container['request'] = function ($c) {
@@ -64,12 +63,12 @@ try {
     };
     #注册框架配置组件
     $container['config'] = function ($c) {
-        return new \houduanniu\base\Config(__PROJECT__ . '/common/config');
+        return new \houduanniu\base\Config(PROJECT_PATH . '/common/config');
     };
 
     #注册缓存组件
     $container['cache'] = function ($c) {
-        return (new \houduanniu\base\Cache())->setCachePath(__PROJECT__ . '/cache/');
+        return (new \houduanniu\base\Cache())->setCachePath(PROJECT_PATH . '/cache/');
     };
 
     #注册curl组件
@@ -84,8 +83,8 @@ try {
 
     #注册验证器组件
     $container['validation'] = function ($c) {
-        require __VENDOR__ . '/overtrue/validation/src/helpers.php';
-        $lang = require __VENDOR__ . '/overtrue/zh-CN/validation.php';
+        require VENDOR_PATH . '/overtrue/validation/src/helpers.php';
+        $lang = require VENDOR_PATH . '/overtrue/zh-CN/validation.php';
         return new \Overtrue\Validation\Factory(new \Overtrue\Validation\Translator($lang));
     };
 
@@ -116,18 +115,18 @@ try {
 
     #添加应用类文件加载位置
     $appPath = array(
-        __PROJECT__ . '/' . strtolower($request_data['module']),
-        __PROJECT__ . '/common',
+        PROJECT_PATH . '/' . strtolower($request_data['module']),
+        PROJECT_PATH . '/common',
     );
     $loader->addPrefix('app', $appPath);
 
     #添加应用配置
-    if (is_dir(__PROJECT__ . '/' . MODULE_NAME . '/config')) {
+    if (is_dir(PROJECT_PATH . '/' . MODULE_NAME . '/config')) {
         unset($container['config']);
         $container['config'] = function ($c) {
             $config_path = [
-                __PROJECT__ . '/common/config',
-                __PROJECT__ . '/' . MODULE_NAME . '/config',
+                PROJECT_PATH . '/common/config',
+                PROJECT_PATH . '/' . MODULE_NAME . '/config',
             ];
             return new \houduanniu\base\Config($config_path);
         };
@@ -135,7 +134,7 @@ try {
     #运行应用
     \houduanniu\base\Application::run($container);
 } catch (\Exception $e) {
-    $engine =$container['template_engine'];
+    $engine = $container['template_engine'];
     $engine->setDirectory(__DIR__ . '/templates/');
     $engine->setFileExtension('tpl');
     $engine->addData([

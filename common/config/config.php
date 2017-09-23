@@ -11,7 +11,7 @@ return array(
     #图片尺寸
     'IMAGE_SIZE' => array('_120_75', '_160_100', '_300_185', '_250_155', '_320_200'),
     #运行环境 develop|product
-    'ENVIRONMENT' => __ENVIRONMENT__,
+    'ENVIRONMENT' => ENVIRONMENT,
 
     /*http请求设置 开始*/
     /* URL设置 */
