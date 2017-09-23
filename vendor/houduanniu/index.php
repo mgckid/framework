@@ -104,34 +104,20 @@ try {
 
     #注册路由数据
     $request_data = $container['request']->run();
-    $container['request_data'] = $request_data;
 
-    #应用模块常量
+    #当前模块名称常量
     defined('MODULE_NAME') or define('MODULE_NAME', $request_data['module']);
-    #应用模块常量
+    #当前控制器名称常量
     defined('CONTROLLER_NAME') or define('CONTROLLER_NAME', $request_data['controller']);
-    #应用模块常量
+    #当前方法名称常量
     defined('ACTION_NAME') or define('ACTION_NAME', $request_data['action']);
 
-    #添加应用类文件加载位置
-    $appPath = array(
-        PROJECT_PATH . '/' . strtolower($request_data['module']),
-        PROJECT_PATH . '/common',
-    );
-    $loader->addPrefix('app', $appPath);
 
-    #添加应用配置
-    if (is_dir(PROJECT_PATH . '/' . MODULE_NAME . '/config')) {
-        unset($container['config']);
-        $container['config'] = function ($c) {
-            $config_path = [
-                PROJECT_PATH . '/common/config',
-                PROJECT_PATH . '/' . MODULE_NAME . '/config',
-            ];
-            return new \houduanniu\base\Config($config_path);
-        };
-    }
-    #运行应用
+    #当前模块路径
+    defined('APP_PATH') or define('APP_PATH', PROJECT_PATH . '/' . MODULE_NAME);
+    #公共模块路径
+    defined('COMMON_PATH') or define('COMMON_PATH', PROJECT_PATH . '/common');
+
     \houduanniu\base\Application::run($container);
 } catch (\Exception $e) {
     $engine = $container['template_engine'];

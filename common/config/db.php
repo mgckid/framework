@@ -9,7 +9,7 @@ if (ENVIRONMENT == 'develop') {
     return [
         //链接
         'MAIN_DOMAIN' => 'fff.me',
-        'HOME_URL' => 'http://blog.fff.me',
+        'HOME_URL' => 'http://www.fff.me',
         'ADMIN_URL' => 'http://admin.fff.me',
         'API_URL' => 'http://api.fff.me',
         //数据库配置

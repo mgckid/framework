@@ -34,17 +34,55 @@ class Application
      */
     public static function run($container)
     {
-        $request_data = $container['request_data'];
+        $loader = $container['loader'];
+        #添加应用类文件加载位置
+        $appPath = array(
+            PROJECT_PATH . '/' . strtolower(MODULE_NAME),
+            PROJECT_PATH . '/common',
+        );
+        $loader->addPrefix('app', $appPath);
+        #添加应用第三方扩展类夹在位置
+        $app_vendor_class_map = APP_PATH . '/vendor/class_map.php';
+        if (file_exists($app_vendor_class_map)) {
+            $class_map_result = require($app_vendor_class_map);
+            if (is_array($class_map_result) && !empty($class_map_result)) {
+                foreach ($class_map_result as $key => $value) {
+                    $loader->addPrefix($key, $value);
+                }
+            }
+        }
+        #添加公共第三方扩展类夹在位置
+        $common_vendor_class_map = COMMON_PATH . '/vendor/class_map.php';
+        if (file_exists($common_vendor_class_map)) {
+            $class_map_result = require($common_vendor_class_map);
+            if (is_array($class_map_result) && !empty($class_map_result)) {
+                foreach ($class_map_result as $key => $value) {
+                    $loader->addPrefix($key, $value);
+                }
+            }
+        }
+        #添加应用配置
+        if (is_dir(PROJECT_PATH . '/' . MODULE_NAME . '/config')) {
+            unset($container['config']);
+            $container['config'] = function ($c) {
+                $config_path = [
+                    PROJECT_PATH . '/common/config',
+                    PROJECT_PATH . '/' . MODULE_NAME . '/config',
+                ];
+                return new \houduanniu\base\Config($config_path);
+            };
+        }
+        #运行应用
         self::getInstance()->container = $container;
         #运行程序
-        $controller_name = 'app\\' . self::config()->get('DIR_CONTROLLER') . '\\' . $request_data['controller'] . self::config()->get('EXT_CONTROLLER');
+        $controller_name = 'app\\' . self::config()->get('DIR_CONTROLLER') . '\\' . CONTROLLER_NAME . self::config()->get('EXT_CONTROLLER');
         if (!class_exists($controller_name)) {
             throw new NotFoundException('控制器不存在');
-        } elseif (!method_exists($controller_name, $request_data['action'])) {
+        } elseif (!method_exists($controller_name, ACTION_NAME)) {
             throw new NotFoundException('方法不存在');
         } else {
             #执行方法
-            call_user_func(array(new $controller_name, $request_data['action']));
+            call_user_func(array(new $controller_name, ACTION_NAME));
         }
     }
 
@@ -129,22 +167,39 @@ class Application
         return self::container()['segment'];
     }
 
-
+    /**
+     * 设置消息
+     * @param $msg
+     */
     public function setMessage($msg)
     {
         $this->message = $msg;
     }
 
+    /**
+     * 获取消息
+     * @return mixed
+     */
     public function getMessage()
     {
         return $this->message;
     }
 
+    /**
+     * 设置数据
+     * @param $name
+     * @param null $value
+     */
     public function setInfo($name, $value = NULL)
     {
         $this->info[$name] = $value;
     }
 
+    /**
+     * 获取数据
+     * @param $name
+     * @return null
+     */
     public function getInfo($name)
     {
         if (!isset($this->info[$name])) {

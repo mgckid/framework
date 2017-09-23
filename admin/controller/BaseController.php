@@ -10,7 +10,6 @@ namespace app\controller;
 
 use houduanniu\web\Controller;
 use houduanniu\web\View;
-use houduanniu\base\Application;
 use app\model\SiteConfigModel;
 
 class BaseController extends Controller
