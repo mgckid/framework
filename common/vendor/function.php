@@ -54,7 +54,7 @@
 function getImage($name, $size = '')
 {
     if (empty($name)) {
-        return '/static/Common/images/no_image.jpg';
+        return '/static/default.jpg';
     }
     $uploadPath = C('UPLOAD_PATH');
     $staticPath = C('STATIC_PATH');
