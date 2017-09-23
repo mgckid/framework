@@ -15,6 +15,8 @@ class Application
 {
     protected static $instance;
     protected $container;
+    public $message;
+    public $info;
 
     private function __construct()
     {
@@ -35,7 +37,7 @@ class Application
         $request_data = $container['request_data'];
         self::getInstance()->container = $container;
         #运行程序
-        $controller_name = 'app\\' . self::config()->get('DIR_CONTROLLER') . '\\' . $request_data['controller'] .self::config()->get('EXT_CONTROLLER');
+        $controller_name = 'app\\' . self::config()->get('DIR_CONTROLLER') . '\\' . $request_data['controller'] . self::config()->get('EXT_CONTROLLER');
         if (!class_exists($controller_name)) {
             throw new NotFoundException('控制器不存在');
         } elseif (!method_exists($controller_name, $request_data['action'])) {
@@ -125,6 +127,30 @@ class Application
     static function segment()
     {
         return self::container()['segment'];
+    }
+
+
+    public function setMessage($msg)
+    {
+        $this->message = $msg;
+    }
+
+    public function getMessage()
+    {
+        return $this->message;
+    }
+
+    public function setInfo($name, $value = NULL)
+    {
+        $this->info[$name] = $value;
+    }
+
+    public function getInfo($name)
+    {
+        if (!isset($this->info[$name])) {
+            return NULL;
+        }
+        return $this->info[$name];
     }
 
 

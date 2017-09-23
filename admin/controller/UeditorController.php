@@ -78,7 +78,7 @@ class UeditorController extends UserBaseController
     protected function getConfig()
     {
         #编辑器默认配置
-        $configFileName =    __PROJECT__.'/common/library/Ueditor/config.json';
+        $configFileName = __PROJECT__ . '/' . MODULE_NAME . '/library/Ueditor/config.json';
         $default_config = json_decode(preg_replace("/\/\*[\s\S]+?\*\//", "", file_get_contents($configFileName)), true);
         #系统自定义配置
         $ueditor_config = C('UEDITOR_CONFIG');
