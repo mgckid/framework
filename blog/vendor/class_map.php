@@ -6,6 +6,5 @@
  * Time: 12:39
  */
 return array(
-    /*Requests for PHP is a humble HTTP request library*/
-    '\\' => '/Requests-master/library',
+    'Curl' => __DIR__ . '/php-curl-class-master/src/Curl',
 );

@@ -9,14 +9,12 @@
 namespace app\controller;
 
 
-use app\model\SiteConfigModel;
 use app\model\SiteSetModel;
-use app\model\CmsCategoryModel;
-use app\model\FlinkModel;
-use GuzzleHttp\Client;
+use Curl\Curl;
 use houduanniu\web\Controller;
 use houduanniu\web\View;
 use houduanniu\base\Application;
+use Requests;
 
 class BaseController extends Controller
 {
@@ -74,6 +72,8 @@ class BaseController extends Controller
     public function apiRequest($url, $data = [], $mode = 'Api', $method = 'get')
     {
 
+        $curl = new Curl();
+        print_g($curl);
         if ($mode == 'Api') {
             $host = C('API_URL');
         }
