@@ -65,8 +65,12 @@ class BaseController extends Controller
         if (!isset($container['curl'])) {
             #注册curl组件
             $container['curl'] = function ($c) {
-                return new Curl();
+                $curl = new Curl();
+                return $curl;
             };
+        }
+        if (ENVIRONMENT == 'develop') {
+            $container['curl']->setOpt(CURLOPT_PROXY, '127.0.0.1:7777');
         }
         return $container['curl'];
     }

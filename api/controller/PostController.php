@@ -114,8 +114,7 @@ class PostController extends Controller
         }
         $post_id = $_REQUEST['post_id'];
         $page_size = $_REQUEST['page_size'];
-        $result = $cmsPostModel->getRecordInfoByPostid($post_id);
-        $post_result = $cmsPostModel->getPostInfoById($result['id']);
+        $post_result = $cmsPostModel->getRecordInfoByPostid($post_id);
         if (!$post_result) {
             $this->response(null, self::S400_BAD_REQUEST, '文档不存在');
         }

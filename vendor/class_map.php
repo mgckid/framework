@@ -25,7 +25,6 @@ return array(
 
     #模版引擎
     'League\Plates' => __DIR__ . '/thephpleague/plates/src',
-    /****************************核心库文件 结束***************************/
 
     #A small PHP 5.3 dependency injection container http://pimple.sensiolabs.org
     'Pimple' => __DIR__ . '/Pimple-master/src/Pimple',
@@ -38,6 +37,7 @@ return array(
 
     #验证类(Laravel Validation 简化无依赖版)
     'Overtrue\Validation' => __DIR__ . '/overtrue/validation/src',
+    /****************************核心库文件 结束***************************/
 
     #session 会话管理类
     'Aura\Session' => __DIR__ . '/Aura.Session-2.x/src',

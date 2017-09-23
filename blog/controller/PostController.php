@@ -42,7 +42,7 @@ class PostController extends BaseController
                 foreach ($result['data'] as $value) {
                     $related_article[] = [
                         'title' => $value['title'],
-                        'title_alias' => $value['title_alias'],
+                        'post_id' => $value['post_id'],
                         'main_image' => getImage($value['main_image']),
                     ];
                 }
