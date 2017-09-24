@@ -45,6 +45,7 @@ if (ENVIRONMENT == 'develop') {
 
 #时区设置
 date_default_timezone_set('PRC');
+set_error_handler('errorHandle');
 try {
     require VENDOR_PATH . '/Aura.Autoload-2.x/src/Loader.php';
     require VENDOR_PATH . '/Pimple-master/src/Pimple/Container.php';
@@ -120,18 +121,7 @@ try {
 
     \houduanniu\base\Application::run($container);
 } catch (\Exception $e) {
-    $engine = $container['template_engine'];
-    $engine->setDirectory(__DIR__ . '/templates/');
-    $engine->setFileExtension('tpl');
-    $engine->addData([
-        'e' => [
-            'code' => $e->getCode(),
-            'file' => $e->getFile(),
-            'message' => $e->getMessage(),
-            'line' => $e->getLine(),
-            'trace' => $e->getTraceAsString(),
-        ],
-    ]);
-    send_http_status($e->getCode());
-    die ($engine->render('think_exception'));
+    errorPage($e->getCode(),$e->getMessage(),$e->getFile(),$e->getLine(),$e->getTraceAsString());
 };
+
+

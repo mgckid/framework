@@ -286,6 +286,35 @@ function send_http_status($code)
     }
 }
 
+function errorPage($errno, $errstr, $errfile, $errline, $errtrace)
+{
+    $engine = new \League\Plates\Engine();
+    $engine->setDirectory(FRAMEWORK_PATH . '/templates/');
+    $engine->setFileExtension('tpl');
+    $engine->addData([
+        'e' => [
+            'code' => $errno,
+            'message' => $errstr,
+            'file' => $errfile,
+            'line' => $errline,
+            'trace' => $errtrace,
+        ],
+    ]);
+    if ($errno < 400 || $errno >= 500) {
+        $errno = 500;
+    }
+    send_http_status($errno);
+    die ($engine->render('think_exception'));
+}
+
+function errorHandle($errno, $errstr, $errfile, $errline)
+{
+    ob_start();
+    debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+    $errtrace = ob_get_clean();
+    errorPage($errno, $errstr, $errfile, $errline, $errtrace);
+}
+
 /* * ********************别名函数 开始********************************* */
 
 /**

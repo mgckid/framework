@@ -12,8 +12,6 @@ namespace houduanniu\base;
 use Exceptions\Http\Server\InternalServerErrorException;
 use idiorm\orm\ORM;
 use Overtrue\Validation\Factory;
-use Overtrue\Validation\Translator;
-use houduanniu\base\Application;
 
 class Model
 {
