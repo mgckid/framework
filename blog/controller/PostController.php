@@ -16,7 +16,7 @@ class PostController extends BaseController
     {
         $id = isset($_GET['id']) ? trim($_GET['id']) : '';
         if (empty($id)) {
-            die('页面不存在');
+            trigger_error('页面不存在');
         }
         #获取文章详情
         {
@@ -25,7 +25,7 @@ class PostController extends BaseController
             ];
             $result = $this->apiRequest('Post/Post', $param, 'Api');
             if ($result['code'] != 200) {
-                die('页面不存在');
+                trigger_error('页面不存在');
             }
             $result['data']['article']['post_tag'] = explode(',', $result['data']['article']['post_tag']);
             $reg['info'] = $result['data'];

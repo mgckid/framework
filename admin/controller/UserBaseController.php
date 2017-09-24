@@ -29,7 +29,7 @@ class UserBaseController extends BaseController
             if (IS_POST || IS_AJAX) {
                 $this->ajaxFail('没有权限');
             } else {
-                die('没有权限');
+                trigger_error('没有权限');
             }
         };
     }

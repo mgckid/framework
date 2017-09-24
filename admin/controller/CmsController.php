@@ -114,7 +114,7 @@ class CmsController extends UserBaseController
             $model_name = isset($_GET['model_name']) ? trim($_GET['model_name']) : '';
 
             if (!$category_id && !$model_name) {
-                die('请选择栏目或者模型');
+                trigger_error('请选择栏目或者模型');
             }
 
             #获取栏目信息
@@ -129,7 +129,7 @@ class CmsController extends UserBaseController
             $model_name = !empty($model_name) ? $model_name : $category_result['model_id'];
             $model_result = $baseLogic->getModelInfo($model_name);
             if (!$model_result) {
-                die('内容模型不存在');
+                trigger_error('内容模型不存在');
             }
             #获取表单初始化数据
             $form_init = $baseLogic->getFormInit($model_result['dictionary_value'], 'model');
@@ -279,7 +279,7 @@ class CmsController extends UserBaseController
         $fetch_row = 20; #每页条数
 
         if (!$category_id) {
-            die('栏目列表不能为空');
+            trigger_error('栏目列表不能为空');
         }
 
         #获取栏目信息

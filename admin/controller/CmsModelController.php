@@ -60,7 +60,7 @@ class CmsModelController extends UserBaseController
     {
         $dictionary_id = isset($_REQUEST['dictionary_id']) ? intval($_REQUEST['dictionary_id']) : 0;
         if (empty($dictionary_id)) {
-            die('字典id不能为空');
+            trigger_error('字典id不能为空');
         }
         #查询列表
         {
@@ -145,7 +145,7 @@ class CmsModelController extends UserBaseController
         } else {
             $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
             if (!$id) {
-                die('模型id不能为空');
+                trigger_error('模型id不能为空');
             }
             $model = new DictionaryModelModel();
             $logic = new BaseLogic();
@@ -183,7 +183,7 @@ class CmsModelController extends UserBaseController
         } else {
             $dictionary_id = isset($_REQUEST['dictionary_id']) ? intval($_REQUEST['dictionary_id']) : 0;
             if (empty($dictionary_id)) {
-                die('字典id不能为空');
+                trigger_error('字典id不能为空');
             }
             #表单初始化
             $model = new DictionaryModelFieldModel();
@@ -224,7 +224,7 @@ class CmsModelController extends UserBaseController
         } else {
             $id = isset($_REQUEST['id']) ? intval($_REQUEST['id']) : 0;
             if (empty($id)) {
-                die('字段id不能为空');
+                trigger_error('字段id不能为空');
             }
             #表单初始化
             $model = new DictionaryModelFieldModel();

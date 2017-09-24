@@ -627,14 +627,14 @@ class RbacController extends UserBaseController
         } else {
             $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
             if (!$id) {
-                die('用户id不能为空');
+                trigger_error('用户id不能为空');
             }
             $userModel = new AdminUserModel();
             $userInfo = $userModel->orm()
                 ->find_one($id)
                 ->as_array();
             if (!$userInfo) {
-                die('用户不存在');
+                trigger_error('用户不存在');
             }
             $data = array(
                 'info' => $userInfo,

@@ -96,7 +96,7 @@ class BaseController extends Controller
             $host = C('API_URL');
         }
         if (empty($host)) {
-            die('接口地址不存在');
+            trigger_error('接口地址不存在');
         }
         #返回缓存内容
         $cache_key = md5(json_encode($data));
@@ -116,7 +116,7 @@ class BaseController extends Controller
             $response = $curl->get($url);
         }
         if (!is_object($response)) {
-            die('接口请求错误');
+            trigger_error('接口请求错误');
         }
         $result = json_decode(json_encode($response), true);;
         #缓存数据
