@@ -21,14 +21,13 @@ class BaseController extends Controller
     protected $crumbHtml;
     public $imageSize;
 
-    public $siteInfo;
 
     function __construct()
     {
         parent::__construct();
         require_once(PROJECT_PATH . '/common/vendor/function.php');
         $this->imageSize = C('IMAGE_SIZE');
-        $this->siteInfo = $this->getSiteInfo();
+        $this->setInfo('siteInfo', $this->getSiteInfo());
     }
 
     /**
@@ -138,7 +137,7 @@ class BaseController extends Controller
     {
         #站点信息
         {
-            $siteInfo = $this->siteInfo;
+            $siteInfo = $this->getSiteInfo();
             $siteInfo['title'] = !empty($seoInfo['title']) ? $seoInfo['title'] . '_' . $siteInfo['site_name'] : $siteInfo['site_name'];
             $siteInfo['keywords'] = !empty($seoInfo['keywords']) ? $seoInfo['keywords'] : $siteInfo['site_keywords'];
             $siteInfo['description'] = !empty($seoInfo['description']) ? $seoInfo['description'] : $siteInfo['site_description'];

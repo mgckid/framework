@@ -18,7 +18,7 @@ class TestController extends BaseController
         //添加钩子
         Hook::getInstance()->add_action('test_action','print_g');
         //执行钩子
-        hook::getInstance()->do_action('test_action',$this->siteInfo);//也可以使用 Hook::do_action();
+        hook::getInstance()->do_action('test_action',$this->getInfo('siteInfo'));//也可以使用 Hook::do_action();
       //  $this->display('Test/index', []);
     }
 }

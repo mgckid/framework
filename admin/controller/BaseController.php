@@ -22,13 +22,22 @@ class BaseController extends Controller
     public function __construct()
     {
         require(PROJECT_PATH . '/common/vendor/function.php');
+    }
+
+    public function getSiteInfo()
+    {
+        return $this->getInfo('siteInfo');
+    }
+
+    public function setSiteInfo()
+    {
         $siteConfigModel = new SiteConfigModel();
         $result = $siteConfigModel->getConfigList([], 'name,value');
         $siteInfo = [];
         foreach ($result as $value) {
             $siteInfo[$value['name']] = $value['value'];
         }
-        $this->siteInfo = $siteInfo;
+        $this->setInfo('siteInfo', $siteInfo);
     }
 
     /**

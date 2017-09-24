@@ -13,6 +13,7 @@ use app\model\CmsModelModel;
 use app\model\DictionaryModel;
 use app\model\DictionaryModelFieldModel;
 use app\model\DictionaryModelModel;
+use houduanniu\base\Application;
 use houduanniu\base\Hook;
 use houduanniu\base\Model;
 use houduanniu\web\Controller;
@@ -275,7 +276,8 @@ class BaseLogic extends Controller
             $this->setMessage('源数据不能为空');
             return false;
         }
-        $token = $this->siteInfo['cfg_BosonNLP_TOKEN'];
+        print_g(Application::getInstance()->getInfo('siteInfo'));
+        $token = $this->getInfo('siteInfo')['cfg_BosonNLP_TOKEN'];
         if (empty($token)) {
             $this->setMessage('请先设置玻森分词api Token');
             return false;

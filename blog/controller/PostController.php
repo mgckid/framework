@@ -87,9 +87,9 @@ class PostController extends BaseController
         #seo标题
         {
             $seoInfo = [
-                'title' => $this->siteInfo['site_short_name'] . '首页',
-                'keywords' => $this->siteInfo['site_keywords'],
-                'description' => $this->siteInfo['site_description'],
+                'title' => $this->getInfo('siteInfo')['site_short_name'] . '首页',
+                'keywords' => $this->getInfo('siteInfo')['site_keywords'],
+                'description' => $this->getInfo('siteInfo')['site_description'],
             ];
         }
         $this->display('Index/index', $reg, $seoInfo);

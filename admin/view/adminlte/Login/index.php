@@ -7,15 +7,15 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
-    <link rel="stylesheet" href="static/admin/adminlte/src/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/admin/adminlte/bootstrap/css/bootstrap.min.css">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="static/admin/adminlte/project/plugins/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="static/admin/css/font-awesome/4.5.0/css/font-awesome.min.css">
     <!-- Ionicons -->
-    <link rel="stylesheet" href="static/admin/adminlte/project/plugins/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="static/admin/css/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="static/admin/adminlte/src/dist/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="static/admin/adminlte/dist/css/AdminLTE.min.css">
     <!-- iCheck -->
-    <link rel="stylesheet" href="static/admin/adminlte/src/plugins/iCheck/square/blue.css">
+    <link rel="stylesheet" href="static/admin/adminlte/plugins/iCheck/square/blue.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -32,7 +32,7 @@
     <div class="login-box-body">
         <p class="login-box-msg">网站后台登录</p>
 
-        <form id="loginform"  action="<?= U('Login/index') ?>" method="POST">
+        <form id="loginform" action="<?= U('Login/index') ?>" method="POST">
             <div class="form-group has-feedback">
                 <input type="text" name="username" class="form-control" placeholder="帐号">
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
@@ -64,11 +64,11 @@
 <!-- /.login-box -->
 
 <!-- jQuery 3.1.1 -->
-<script src="static/admin/adminlte/src/plugins/jQuery/jquery-3.1.1.min.js"></script>
+<script src="static/admin/adminlte/plugins/jQuery/jquery-3.1.1.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
-<script src="static/admin/adminlte/src/bootstrap/js/bootstrap.min.js"></script>
+<script src="static/admin/adminlte/bootstrap/js/bootstrap.min.js"></script>
 <!-- iCheck -->
-<script src="static/admin/adminlte/src/plugins/iCheck/icheck.min.js"></script>
+<script src="static/admin/adminlte/plugins/iCheck/icheck.min.js"></script>
 <script>
     $(function () {
         $('input').iCheck({
@@ -79,8 +79,8 @@
     });
 </script>
 <!--页面js-->
-<script src="/static/common/layer-v2.1/layer/layer.js"></script>
-<script src="/static/common/ajaxForm/jquery.form.js"></script>
+<script src="/static/admin/js/layer-v2.1/layer/layer.js"></script>
+<script src="/static/admin/js/ajaxForm/jquery.form.js"></script>
 <script>
     $(function () {
         //提交登陆

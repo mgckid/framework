@@ -119,7 +119,7 @@ class UserBaseController extends BaseController
             'loginInfo' => $loginInfo,
         );
         #站点信息
-        $shareData['siteInfo'] = $this->siteInfo;
+        $shareData['siteInfo'] = $this->getSiteInfo();
         #左侧菜单
         $model = new \app\model\AdminUserModel();
         $roleInfo = $this->getInfo('loginInfo')['roleInfo'];
