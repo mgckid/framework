@@ -26,19 +26,10 @@ class BaseController extends Controller
 
     public function getSiteInfo()
     {
-        return $this->getInfo('siteInfo');
+        $site_info = Application::container()['siteInfo'];
+        return $site_info;
     }
 
-    public function setSiteInfo()
-    {
-        $siteConfigModel = new SiteConfigModel();
-        $result = $siteConfigModel->getConfigList([], 'name,value');
-        $siteInfo = [];
-        foreach ($result as $value) {
-            $siteInfo[$value['name']] = $value['value'];
-        }
-        $this->setInfo('siteInfo', $siteInfo);
-    }
 
     /**
      * 输出模版方法
@@ -62,7 +53,7 @@ class BaseController extends Controller
 
     /**
      * session 分片
-     * @return Segment
+     * @return  \Aura\Session\Segment
      */
     function segment()
     {

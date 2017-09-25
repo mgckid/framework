@@ -82,7 +82,6 @@ class BaseController extends Controller
     public function apiRequest($url, $data = [], $mode = 'Api', $method = 'get')
     {
 
-        $curl = $this->curl();
         if ($mode == 'Api') {
             $host = C('API_URL');
         }
@@ -97,11 +96,8 @@ class BaseController extends Controller
                 return Application::cache($cache_name)->retrieve($cache_key);
             }
         }
+        $curl = $this->curl();
         $header = [];
-        $options = [];
-        if (ENVIRONMENT == 'develop') {
-            $options['proxy'] = '127.0.0.1:7777';
-        }
         if ($method == 'get') {
             $url = $host . U($url, $data);
             $response = $curl->get($url);
