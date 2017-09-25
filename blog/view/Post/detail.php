@@ -17,6 +17,7 @@
                                     <small>
                                         <span class="post-time"><?=date('Y年m月d日',strtotime($info['article']['created']))?></span>
                                         <span class="post-category"> &nbsp;&bull;&nbsp;<a href="<?=U('Index/category',['cate'=>$info['article']['category_alias']])?>" rel="category tag"><?=$info['article']['category_name']?></a></span>
+                                        <span class="post-category"> &nbsp;&bull;&nbsp;<?=$info['article']['author']?></span>
                                     </small>
                                 </p>
 

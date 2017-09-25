@@ -189,9 +189,7 @@ EOT;
 
             $_get = $_GET;
             $_get['p'] = $p;
-              $requestUrl = preg_replace("[\/p\/\d*]", '', $_SERVER['REQUEST_URI']);  //去掉p
-//            $requestUrl = join('/', [CONTROLLER_NAME,ACTION_NAME]);
-//            $requestUrl = U($requestUrl, $_get);
+            $requestUrl = U(CONTROLLER_NAME . '/' . ACTION_NAME, $_get);
             $href = 'href="' . $requestUrl . '"';
         }
         return $href;
@@ -217,7 +215,8 @@ EOT;
         return $pageinfo;
     }
 
-    public function getPageSize(){
+    public function getPageSize()
+    {
         return $this->pageSize;
     }
 

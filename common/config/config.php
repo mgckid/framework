@@ -1,5 +1,9 @@
 <?php
 return array(
+    /*应用加载脚本*/
+    'REQUIRE_SCRIPT_MAP' => [
+        PROJECT_PATH . '/common/vendor/function.php',
+    ],
     #静态资源目录
     'STATIC_PATH' => $_SERVER['DOCUMENT_ROOT'] . '/',
     #上传路径
@@ -10,8 +14,6 @@ return array(
     'maxSize' => '5MB',
     #图片尺寸
     'IMAGE_SIZE' => array('_120_75', '_160_100', '_300_185', '_250_155', '_320_200'),
-    #运行环境 develop|product
-    'ENVIRONMENT' => ENVIRONMENT,
 
     /*http请求设置 开始*/
     /* URL设置 */
@@ -38,10 +40,7 @@ return array(
         'imageMaxSize' => '5120000',                              /* 图片上传大小限制，单位B */
     ),
     /*Ueditor自定义配置 结束*/
-    /*应用加载脚本*/
-    'REQUIRE_SCRIPT_MAP' => [
-        PROJECT_PATH . '/common/vendor/function.php',
-    ],
+
 
 
 );

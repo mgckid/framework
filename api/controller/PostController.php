@@ -130,8 +130,10 @@ class PostController extends Controller
         }
         if (count($post_ids) < $page_size) {
             $page_size = $page_size - count($post_ids);
-            $orm = $cmsPostModel->orm()->where('category_id', $post_result['category_id'])
-                ->where_not_in('post_id', $post_ids);
+            $orm = $cmsPostModel->orm()->where('category_id', $post_result['category_id']);
+            if($post_ids){
+               $orm = $orm ->where_not_in('post_id', $post_ids);
+            }
             $result = $cmsPostModel->getRecordList($orm, 0, $page_size);
             if ($result) {
                 $result = array_column($result, 'post_id');
