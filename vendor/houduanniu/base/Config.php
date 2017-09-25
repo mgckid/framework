@@ -15,7 +15,15 @@ class Config extends \Noodlehaus\Config
     {
         return array(
             /*框架自定义配置 开始*/
-            /*模版引擎依赖注入*/
+            /*http请求组件依赖注入*/
+            'request' => function ($c) {
+                return new \houduanniu\base\Request($c['config']->all());
+            },
+            /*http请求路由数据*/
+            'request_data' => function ($c) {
+                return $c['request']->run();
+            },
+            /*模版引擎组件依赖注入*/
             'templateEngine' => function ($c) {
                 return new \League\Plates\Engine();
             },
@@ -34,7 +42,7 @@ class Config extends \Noodlehaus\Config
                 $cache = new Cache();
                 return $cache->setCachePath($cache_dir);
             },
-            /*应用依赖*/
+            /*应用组件依赖注入*/
             'DEPENDENCY_INJECTION_MAP' => [],
             /*应用加载脚本*/
             'REQUIRE_SCRIPT_MAP' => [],
@@ -58,9 +66,11 @@ class Config extends \Noodlehaus\Config
                     'caching_auto_clear' => false,
                     'return_result_sets' => false,
                     #下面三个配置打开会报错
-                    /*                'identifier_quote_character' => null, // if this is null, will be autodetected
-                                    'limit_clause_style'         => null, // if this is null, will be autodetected
-                                    'logger'                     => null,*/
+                    /*
+                    'identifier_quote_character' => null, // if this is null, will be autodetected
+                    'limit_clause_style'         => null, // if this is null, will be autodetected
+                    'logger'                     => null,
+                    */
                 )
             ),
             /* 数据库设置 结束*/

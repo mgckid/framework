@@ -51,23 +51,19 @@ try {
     require VENDOR_PATH . '/Aura.Autoload-2.x/src/Loader.php';
     require VENDOR_PATH . '/Pimple-master/src/Pimple/Container.php';
     $container = new \Pimple\Container();
-    #注册自动加载类
-    $container['loader'] = function ($c) {
-        return new \Aura\Autoload\Loader();
-    };
-    $loader = $container['loader'];
-    $loader->register();
-    $loader->setPrefixes(require(VENDOR_PATH . '/class_map.php'));
-
-    #注册http请求打包组件
-    $container['request'] = function ($c) {
-        return new \houduanniu\base\Request($c['config']->all());
-    };
     #注册框架配置组件
     $container['config'] = function ($c) {
         $common_config = is_dir(COMMON_PATH . '/config') ? COMMON_PATH . '/config' : [];
         return new \houduanniu\base\Config($common_config);
     };
+    #注册自动加载类
+    $container['loader'] = function ($c) {
+        return new \Aura\Autoload\Loader();
+    };
+
+    $loader = $container['loader'];
+    $loader->register();
+    $loader->setPrefixes(require(VENDOR_PATH . '/class_map.php'));
 
     #注册缓存组件
     $container['cache'] = $container['config']->get('cache');
@@ -78,8 +74,14 @@ try {
     #注册验证器组件
     $container['validation'] = $container['config']->get('validation');
 
+    #注册http请求打包组件
+    $container['request'] = $container['config']->get('request');
+
     #注册路由数据
-    $request_data = $container['request']->run();
+    $container['request_data'] = $container['config']->get('request_data');
+
+    #http请求打包数据
+    $request_data = $container['request_data'];
 
     #当前模块名称常量
     defined('MODULE_NAME') or define('MODULE_NAME', $request_data['module']);

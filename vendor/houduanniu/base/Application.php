@@ -34,6 +34,8 @@ class Application
      */
     public static function run($container)
     {
+        self::getInstance()->container = $container;
+
         $loader = $container['loader'];
         #添加应用类文件加载位置
         $appPath = array(
@@ -86,8 +88,6 @@ class Application
                 require $value;
             }
         }
-        #运行应用
-        self::getInstance()->container = $container;
         #运行程序
         $controller_name = 'app\\' . self::config()->get('DIR_CONTROLLER') . '\\' . CONTROLLER_NAME . self::config()->get('EXT_CONTROLLER');
         if (!class_exists($controller_name)) {
