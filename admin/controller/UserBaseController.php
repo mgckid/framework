@@ -39,8 +39,8 @@ class UserBaseController extends BaseController
      */
     public function checkLogin()
     {
-        if (Application::segment()->get('loginInfo')) {
-            $this->setInfo('loginInfo', Application::segment()->get('loginInfo'));
+        if ($this->segment()->get('loginInfo')) {
+            $this->setInfo('loginInfo', $this->segment()->get('loginInfo'));
             $this->loginInfo = $this->getInfo('loginInfo');
             return $this->loginInfo;
         } else {

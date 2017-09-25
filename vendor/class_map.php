@@ -35,7 +35,4 @@ return array(
     #验证类(Laravel Validation 简化无依赖版)
     'Overtrue\Validation' => __DIR__ . '/overtrue/validation/src',
     /****************************核心库文件 结束***************************/
-
-    #session 会话管理类
-    'Aura\Session' => __DIR__ . '/Aura.Session-2.x/src',
 );

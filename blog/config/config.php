@@ -6,5 +6,9 @@
  * Time: 19:57
  */
 return [
-
+    'DEPENDENCY_INJECTION' => [
+        'curl' => function ($c) {
+            return new \Curl\Curl();
+        },
+    ],
 ];

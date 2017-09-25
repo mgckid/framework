@@ -10,6 +10,7 @@ namespace houduanniu\base;
 
 
 use Exceptions\Http\Client\NotFoundException;
+
 class Application
 {
     protected static $instance;
@@ -80,8 +81,8 @@ class Application
         }
         #加载应用依赖脚本
         $require_script = $container['config']->get('REQUIRE_SCRIPT');
-        if(!empty($require_script)){
-            foreach($require_script as $value){
+        if (!empty($require_script)) {
+            foreach ($require_script as $value) {
                 require $value;
             }
         }
@@ -142,15 +143,6 @@ class Application
 
 
     /**
-     * curl组件
-     * @return \Curl\Curl
-     */
-    static function curl()
-    {
-        return self::container()['curl'];
-    }
-
-    /**
      * @access public
      * @author furong
      * @return \Overtrue\Validation\Factory
@@ -162,23 +154,6 @@ class Application
         return self::container()['validation'];
     }
 
-    /**
-     * 会话组件
-     * @return  \Aura\Session\Session
-     */
-    static public function session()
-    {
-        return self::container()['session'];
-    }
-
-    /**
-     * session 分片
-     * @return Segment
-     */
-    static function segment()
-    {
-        return self::container()['segment'];
-    }
 
     /**
      * 设置消息

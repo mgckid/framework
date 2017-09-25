@@ -71,13 +71,8 @@ try {
     $container['cache'] = function ($c) {
         return (new \houduanniu\base\Cache())->setCachePath(PROJECT_PATH . '/cache/');
     };
-
-//    #注册curl组件
-//    $container['curl'] = function ($c) {
-//        return new \Curl\Curl();
-//    };
-
-    #注册模版引擎n组件
+    
+    #注册模版引擎组件
     $container['template_engine'] = function ($c) {
         return new \League\Plates\Engine();
     };
@@ -87,19 +82,6 @@ try {
         require VENDOR_PATH . '/overtrue/validation/src/helpers.php';
         $lang = require VENDOR_PATH . '/overtrue/zh-CN/validation.php';
         return new \Overtrue\Validation\Factory(new \Overtrue\Validation\Translator($lang));
-    };
-
-    #注册session组件
-    $container['session'] = function ($c) {
-        return (new \Aura\Session\SessionFactory())->newInstance($_COOKIE);
-    };
-
-    #注册session segment组件
-    $container['segment'] = function ($c) {
-        $session = $c['session'];
-        $session->setCookieParams(array('lifetime' => 1800 * 24));
-        $segment_key = $c['config']->get('SEGMENT_KEY');
-        return $session->getSegment($segment_key);
     };
 
 
@@ -113,14 +95,14 @@ try {
     #当前方法名称常量
     defined('ACTION_NAME') or define('ACTION_NAME', $request_data['action']);
 
-
     #当前模块路径
     defined('APP_PATH') or define('APP_PATH', PROJECT_PATH . '/' . MODULE_NAME);
     #公共模块路径
     defined('COMMON_PATH') or define('COMMON_PATH', PROJECT_PATH . '/common');
+
     \houduanniu\base\Application::run($container);
 } catch (\Exception $e) {
-    errorPage($e->getCode(),$e->getMessage(),$e->getFile(),$e->getLine(),$e->getTraceAsString());
+    errorPage($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine(), $e->getTraceAsString());
 };
 
 

@@ -8,6 +8,7 @@
 
 namespace app\controller;
 
+use houduanniu\base\Application;
 use houduanniu\web\Controller;
 use houduanniu\web\View;
 use app\model\SiteConfigModel;
@@ -21,7 +22,6 @@ class BaseController extends Controller
 
     public function __construct()
     {
-        require(PROJECT_PATH . '/common/vendor/function.php');
     }
 
     public function getSiteInfo()
@@ -49,6 +49,24 @@ class BaseController extends Controller
     {
         View::setDirectory(PROJECT_PATH . '/' . strtolower(MODULE_NAME) . '/' . C('DIR_VIEW') . '/');
         View::display($view, $data);
+    }
+
+    /**
+     * 会话组件
+     * @return  \Aura\Session\Session
+     */
+    public function session()
+    {
+        return Application::container()['session'];
+    }
+
+    /**
+     * session 分片
+     * @return Segment
+     */
+    function segment()
+    {
+        return Application::container()['segment'];
     }
 
 

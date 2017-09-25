@@ -14,4 +14,6 @@ return array(
     'Overtrue\Pinyin' => __DIR__ . '/overtrue/pinyin/src',
     #简单的 PHP 类注释解析类
     'DocBlockReader' => __DIR__ . '/php-simple-annotations/src/DocBlockReader',
+    #session 会话管理类
+    'Aura\Session' => __DIR__ . '/Aura.Session-2.x/src',
 );

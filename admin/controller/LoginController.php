@@ -16,7 +16,6 @@ class LoginController extends BaseController
 {
 
 
-
     /**
      * 后台登录
      */
@@ -47,12 +46,12 @@ class LoginController extends BaseController
                 $this->ajaxFail($this->getMessage());
             }
             $userinfo = $userModel->getUserInfo($userName);
-            $userinfo['roleInfo']= $AdminUserRoleModel->getRoleByUserId($userinfo['user_id']);
-            Application::segment()->set('loginInfo',$userinfo);
-            Application::session()->commit();
+            $userinfo['roleInfo'] = $AdminUserRoleModel->getRoleByUserId($userinfo['user_id']);
+            $this->segment()->set('loginInfo', $userinfo);
+            $this->session()->commit();
             $this->ajaxSuccess('登陆成功');
         } else {
-            if (Application::segment()->get('loginInfo')) {
+            if ($this->segment()->get('loginInfo')) {
                 $this->redirect(U('Index'));
             }
             $this->display('Login/index');
@@ -67,11 +66,11 @@ class LoginController extends BaseController
         if (!IS_POST)
             $this->ajaxFail('非法访问');
         $logout = isset($_POST['logout']) ? $_POST['logout'] : false;
-        if (!$logout){
+        if (!$logout) {
             $this->ajaxFail('非法访问');
         }
-        if (Application::segment()->get('loginInfo')) {
-            Application::segment()->clear();
+        if ($this->segment()->get('loginInfo')) {
+            $this->segment()->clear();
         }
         $this->ajaxSuccess();
     }
