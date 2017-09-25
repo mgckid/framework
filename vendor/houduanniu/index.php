@@ -26,6 +26,8 @@ defined('FRAMEWORK_PATH') or define('FRAMEWORK_PATH', __DIR__);
 defined('VENDOR_PATH') or define('VENDOR_PATH', dirname(FRAMEWORK_PATH));
 #当前域名
 defined('HTTP_HOST') or define('HTTP_HOST', $_SERVER['HTTP_HOST']);
+#公共模块路径
+defined('COMMON_PATH') or define('COMMON_PATH', PROJECT_PATH . '/common');
 /*框架常量设置 结束*/
 
 #载入函数库
@@ -63,7 +65,8 @@ try {
     };
     #注册框架配置组件
     $container['config'] = function ($c) {
-        return new \houduanniu\base\Config(PROJECT_PATH . '/common/config');
+        $common_config = is_dir(COMMON_PATH . '/config') ? COMMON_PATH . '/config' : [];
+        return new \houduanniu\base\Config($common_config);
     };
 
     #注册缓存组件
@@ -84,11 +87,8 @@ try {
     defined('CONTROLLER_NAME') or define('CONTROLLER_NAME', $request_data['controller']);
     #当前方法名称常量
     defined('ACTION_NAME') or define('ACTION_NAME', $request_data['action']);
-
     #当前模块路径
     defined('APP_PATH') or define('APP_PATH', PROJECT_PATH . '/' . strtolower(MODULE_NAME));
-    #公共模块路径
-    defined('COMMON_PATH') or define('COMMON_PATH', PROJECT_PATH . '/common');
 
     \houduanniu\base\Application::run($container);
 } catch (\Exception $e) {
