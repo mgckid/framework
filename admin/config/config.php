@@ -1,6 +1,7 @@
 <?php
 return array(
-    'DEPENDENCY_INJECTION' => [
+    /*应用依赖*/
+    'DEPENDENCY_INJECTION_MAP' => [
         /*会话依赖*/
         'session' => function ($c) {
             return (new \Aura\Session\SessionFactory())->newInstance($_COOKIE);
@@ -23,4 +24,5 @@ return array(
             return $siteInfo;
         }
     ],
+    'SEGMENT_KEY' => 'dsahgdjshgdjshgdjshgd',
 );

@@ -11,16 +11,15 @@ namespace app\logic;
 use app\model\CmsFieldModel;
 use app\model\CmsModelModel;
 use app\model\DictionaryModel;
-use app\model\DictionaryModelFieldModel;
 use app\model\DictionaryModelModel;
 use BosonNLP\BosonNLP;
 use houduanniu\base\Application;
-use houduanniu\base\Hook;
 use houduanniu\base\Model;
 use houduanniu\web\Controller;
 use app\model\CmsCategoryModel;
 use app\model\DictionaryTableModel;
 use app\model\DictionaryAttributeModel;
+use Hook\Hook;
 
 class BaseLogic extends Controller
 {

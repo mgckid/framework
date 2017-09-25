@@ -37,20 +37,10 @@ class Application
         $loader = $container['loader'];
         #添加应用类文件加载位置
         $appPath = array(
-            PROJECT_PATH . '/' . strtolower(MODULE_NAME),
-            PROJECT_PATH . '/common',
+            APP_PATH,
+            COMMON_PATH,
         );
         $loader->addPrefix('app', $appPath);
-        #添加应用第三方扩展类夹在位置
-        $app_vendor_class_map = APP_PATH . '/vendor/class_map.php';
-        if (file_exists($app_vendor_class_map)) {
-            $class_map_result = require($app_vendor_class_map);
-            if (is_array($class_map_result) && !empty($class_map_result)) {
-                foreach ($class_map_result as $key => $value) {
-                    $loader->addPrefix($key, $value);
-                }
-            }
-        }
         #添加公共第三方扩展类夹在位置
         $common_vendor_class_map = COMMON_PATH . '/vendor/class_map.php';
         if (file_exists($common_vendor_class_map)) {
@@ -61,26 +51,36 @@ class Application
                 }
             }
         }
+        #添加应用第三方扩展类夹在位置
+        $app_vendor_class_map = APP_PATH . '/vendor/class_map.php';
+        if (file_exists($app_vendor_class_map)) {
+            $class_map_result = require($app_vendor_class_map);
+            if (is_array($class_map_result) && !empty($class_map_result)) {
+                foreach ($class_map_result as $key => $value) {
+                    $loader->addPrefix($key, $value);
+                }
+            }
+        }
         #添加应用配置
-        if (is_dir(PROJECT_PATH . '/' . MODULE_NAME . '/config')) {
+        if (is_dir(APP_PATH . '/config')) {
             unset($container['config']);
             $container['config'] = function ($c) {
                 $config_path = [
-                    PROJECT_PATH . '/common/config',
-                    PROJECT_PATH . '/' . MODULE_NAME . '/config',
+                    COMMON_PATH . '/config',
+                    APP_PATH . '/config',
                 ];
                 return new \houduanniu\base\Config($config_path);
             };
         }
         #添加应用依赖注入
-        $app_container = $container['config']->get('DEPENDENCY_INJECTION');
+        $app_container = $container['config']->get('DEPENDENCY_INJECTION_MAP');
         if (!empty($app_container)) {
             foreach ($app_container as $key => $value) {
                 $container[$key] = $value;
             }
         }
         #加载应用依赖脚本
-        $require_script = $container['config']->get('REQUIRE_SCRIPT');
+        $require_script = $container['config']->get('REQUIRE_SCRIPT_MAP');
         if (!empty($require_script)) {
             foreach ($require_script as $value) {
                 require $value;

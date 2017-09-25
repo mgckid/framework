@@ -67,21 +67,13 @@ try {
     };
 
     #注册缓存组件
-    $container['cache'] = function ($c) {
-        return (new \houduanniu\base\Cache())->setCachePath(PROJECT_PATH . '/cache/');
-    };
+    $container['cache'] = $container['config']->get('cache');
 
     #注册模版引擎组件
-    $container['templateEngine'] = function ($c) {
-        return new \League\Plates\Engine();
-    };
+    $container['templateEngine'] = $container['config']->get('templateEngine');
 
     #注册验证器组件
-    $container['validation'] = function ($c) {
-        require VENDOR_PATH . '/overtrue/validation/src/helpers.php';
-        $lang = require VENDOR_PATH . '/overtrue/zh-CN/validation.php';
-        return new \Overtrue\Validation\Factory(new \Overtrue\Validation\Translator($lang));
-    };
+    $container['validation'] = $container['config']->get('validation');
 
     #注册路由数据
     $request_data = $container['request']->run();
@@ -94,7 +86,7 @@ try {
     defined('ACTION_NAME') or define('ACTION_NAME', $request_data['action']);
 
     #当前模块路径
-    defined('APP_PATH') or define('APP_PATH', PROJECT_PATH . '/' . MODULE_NAME);
+    defined('APP_PATH') or define('APP_PATH', PROJECT_PATH . '/' . strtolower(MODULE_NAME));
     #公共模块路径
     defined('COMMON_PATH') or define('COMMON_PATH', PROJECT_PATH . '/common');
 

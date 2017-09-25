@@ -6,7 +6,7 @@
  * Time: 16:22
  */
 
-namespace houduanniu\base;
+namespace Hook;
 
 
 class Hook
@@ -63,7 +63,7 @@ class Hook
         if (isset($this->actions[$hook])) {
             // call each function handler associated with this hook
             foreach ($this->actions[$hook] as $function) {
-                $function = explode('::',$function);
+                $function = explode('::', $function);
                 $function[0] = new $function[0];
                 if (is_array($params)) {
                     call_user_func_array($function, $params);

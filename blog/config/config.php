@@ -6,7 +6,8 @@
  * Time: 19:57
  */
 return [
-    'DEPENDENCY_INJECTION' => [
+    /*应用依赖*/
+    'DEPENDENCY_INJECTION_MAP' => [
         'curl' => function ($c) {
             return new \Curl\Curl();
         },

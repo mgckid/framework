@@ -18,4 +18,5 @@ return array(
     'Aura\Session' => __DIR__ . '/Aura.Session-2.x/src',
     #上传类(File uploads with validation and storage strategies)
     'Upload' => __DIR__ . '/Upload-master/src/Upload/',
+    'Hook' => __DIR__ . '/Hook',
 );

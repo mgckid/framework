@@ -14,6 +14,32 @@ class Config extends \Noodlehaus\Config
     protected function getDefaults()
     {
         return array(
+            /*框架自定义配置 开始*/
+            /*模版引擎依赖注入*/
+            'templateEngine' => function ($c) {
+                return new \League\Plates\Engine();
+            },
+            /*验证器组件依赖注入*/
+            'validation' => function ($c) {
+                require VENDOR_PATH . '/overtrue/validation/src/helpers.php';
+                $lang = require VENDOR_PATH . '/overtrue/zh-CN/validation.php';
+                return new \Overtrue\Validation\Factory(new \Overtrue\Validation\Translator($lang));
+            },
+            /*缓存组件依赖注入*/
+            'cache' => function ($c) {
+                $cache_dir = PROJECT_PATH . '/cache/';
+                if (!is_dir($cache_dir)) {
+                    mkdir($cache_dir);
+                }
+                $cache = new Cache();
+                return $cache->setCachePath($cache_dir);
+            },
+            /*应用依赖*/
+            'DEPENDENCY_INJECTION_MAP' => [],
+            /*应用加载脚本*/
+            'REQUIRE_SCRIPT_MAP' => [],
+            /*框架自定义配置 结束*/
+
             /* 数据库设置 开始 */
             'DB' => array(
                 'default' => array(
@@ -67,17 +93,8 @@ class Config extends \Noodlehaus\Config
                 'www' => 'home'
             ],
             /*http请求设置 结束*/
-            'SEGMENT_KEY' => 'dsahgdjshgdjshgdjshgd',
             /*模版主题*/
             'THEME' => 'default',
-            /*应用依赖*/
-            'DEPENDENCY_INJECTION' => [],
-            /*应用加载脚本*/
-            'REQUIRE_SCRIPT' => [],
-            /*模版引擎依赖注入*/
-            'templateEngine' => function ($c) {
-                return new \League\Plates\Engine();
-            },
         );
     }
 }
