@@ -71,9 +71,13 @@ class Config extends \Noodlehaus\Config
             /*模版主题*/
             'THEME' => 'default',
             /*应用依赖*/
-            'DEPENDENCY_INJECTION'=>[],
+            'DEPENDENCY_INJECTION' => [],
             /*应用加载脚本*/
-            'REQUIRE_SCRIPT'=>[],
+            'REQUIRE_SCRIPT' => [],
+            /*模版引擎依赖注入*/
+            'templateEngine' => function ($c) {
+                return new \League\Plates\Engine();
+            },
         );
     }
 }

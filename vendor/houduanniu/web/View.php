@@ -42,7 +42,7 @@ class View
      */
     static function getEngine()
     {
-       return Application::container()['template_engine'];
+       return Application::templateEngine();
     }
 
 

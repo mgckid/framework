@@ -16,4 +16,6 @@ return array(
     'DocBlockReader' => __DIR__ . '/php-simple-annotations/src/DocBlockReader',
     #session 会话管理类
     'Aura\Session' => __DIR__ . '/Aura.Session-2.x/src',
+    #上传类(File uploads with validation and storage strategies)
+    'Upload' => __DIR__ . '/Upload-master/src/Upload/',
 );

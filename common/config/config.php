@@ -25,7 +25,6 @@ return array(
     ],
     /*http请求设置 结束*/
 
-
     /*Ueditor自定义配置 开始*/
     'UEDITOR_CONFIG' => array(
         'imagePathFormat' => '/upload/{md5}',                   /* 上传图片保存路径,可以自定义保存路径和文件名格式 */

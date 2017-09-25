@@ -194,4 +194,17 @@ class Application
     {
         return self::container()['validation'];
     }
+
+    /**
+     * 模版引擎组件
+     * @access public
+     * @author furong
+     * @return \League\Plates\Engine
+     * @since
+     * @abstract
+     */
+    static function templateEngine()
+    {
+        return self::container()['templateEngine'];
+    }
 }

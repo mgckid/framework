@@ -72,7 +72,7 @@ try {
     };
 
     #注册模版引擎组件
-    $container['template_engine'] = function ($c) {
+    $container['templateEngine'] = function ($c) {
         return new \League\Plates\Engine();
     };
 
