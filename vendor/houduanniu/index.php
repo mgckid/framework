@@ -31,7 +31,6 @@ defined('HTTP_HOST') or define('HTTP_HOST', $_SERVER['HTTP_HOST']);
 #载入函数库
 require FRAMEWORK_PATH . '/function.php';
 
-
 #错误报告级别(默认全部)
 if (ENVIRONMENT == 'develop') {
     error_reporting(E_ALL);
@@ -71,7 +70,7 @@ try {
     $container['cache'] = function ($c) {
         return (new \houduanniu\base\Cache())->setCachePath(PROJECT_PATH . '/cache/');
     };
-    
+
     #注册模版引擎组件
     $container['template_engine'] = function ($c) {
         return new \League\Plates\Engine();
@@ -83,7 +82,6 @@ try {
         $lang = require VENDOR_PATH . '/overtrue/zh-CN/validation.php';
         return new \Overtrue\Validation\Factory(new \Overtrue\Validation\Translator($lang));
     };
-
 
     #注册路由数据
     $request_data = $container['request']->run();

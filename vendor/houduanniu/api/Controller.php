@@ -130,5 +130,44 @@ class Controller
         $this->response(null, $http_code, $messaage);
     }
 
+    /**
+     * 设置消息
+     * @param type $url
+     */
+    public function setMessage($msg)
+    {
+        return Application::setMessage($msg);
+    }
+
+    /**
+     * 获取消息
+     * @param
+     */
+    public function getMessage()
+    {
+        return Application::getMessage();
+    }
+
+    /**
+     * 获取数据
+     * @param
+     */
+    public function getInfo($key)
+    {
+        return Application::getInfo($key);
+    }
+
+    /**
+     *  设置数据
+     * @param type $key
+     * @param type $value
+     */
+    public function setInfo($key, $value)
+    {
+        Application::setInfo($key, $value);
+    }
+
+
+
 
 } 

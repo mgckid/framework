@@ -201,27 +201,44 @@ class Model
      */
     public function validate()
     {
-        return  Application::validation();
+        return Application::validation();
     }
 
+    /**
+     * 设置消息
+     * @param type $url
+     */
     public function setMessage($msg)
     {
-        return Application::getInstance()->setMessage($msg);
+        return Application::setMessage($msg);
     }
 
+    /**
+     * 获取消息
+     * @param
+     */
     public function getMessage()
     {
-        return Application::getInstance()->getMessage();
+        return Application::getMessage();
     }
 
+    /**
+     * 获取数据
+     * @param
+     */
     public function getInfo($key)
     {
-        return Application::getInstance()->getInfo($key);
+        return Application::getInfo($key);
     }
 
+    /**
+     *  设置数据
+     * @param type $key
+     * @param type $value
+     */
     public function setInfo($key, $value)
     {
-        Application::getInstance()->setInfo($key, $value);
+        Application::setInfo($key, $value);
     }
 
     public function getTableName()

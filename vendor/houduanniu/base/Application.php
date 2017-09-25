@@ -15,8 +15,8 @@ class Application
 {
     protected static $instance;
     protected $container;
-    public $message;
-    public $info;
+    protected $message;
+    protected $info;
 
     private function __construct()
     {
@@ -122,12 +122,53 @@ class Application
     }
 
     /**
+     * 设置消息
+     * @param $msg
+     */
+    public static function setMessage($msg)
+    {
+        self::getInstance()->message = $msg;
+    }
+
+    /**
+     * 获取消息
+     * @return mixed
+     */
+    public static function getMessage()
+    {
+        return self::getInstance()->message;
+    }
+
+    /**
+     * 设置数据
+     * @param $name
+     * @param null $value
+     */
+    public static function setInfo($name, $value = NULL)
+    {
+        self::getInstance()->info[$name] = $value;
+    }
+
+    /**
+     * 获取数据
+     * @param $name
+     * @return null
+     */
+    public static function getInfo($name)
+    {
+        $return = null;
+        if (isset(self::getInstance()->info[$name])) {
+            $return = self::getInstance()->info[$name];
+        }
+        return $return;
+    }
+
+    /**
      * 回话组件
      * @return  Config
      */
     static function config()
     {
-
         return self::container()['config'];
     }
 
@@ -153,48 +194,4 @@ class Application
     {
         return self::container()['validation'];
     }
-
-
-    /**
-     * 设置消息
-     * @param $msg
-     */
-    public function setMessage($msg)
-    {
-        $this->message = $msg;
-    }
-
-    /**
-     * 获取消息
-     * @return mixed
-     */
-    public function getMessage()
-    {
-        return $this->message;
-    }
-
-    /**
-     * 设置数据
-     * @param $name
-     * @param null $value
-     */
-    public function setInfo($name, $value = NULL)
-    {
-        $this->info[$name] = $value;
-    }
-
-    /**
-     * 获取数据
-     * @param $name
-     * @return null
-     */
-    public function getInfo($name)
-    {
-        if (!isset($this->info[$name])) {
-            return NULL;
-        }
-        return $this->info[$name];
-    }
-
-
 }
