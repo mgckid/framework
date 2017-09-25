@@ -67,10 +67,13 @@ class Config extends \Noodlehaus\Config
                 'www' => 'home'
             ],
             /*http请求设置 结束*/
-
             'SEGMENT_KEY' => 'dsahgdjshgdjshgdjshgd',
             /*模版主题*/
             'THEME' => 'default',
+            /*应用依赖*/
+            'DEPENDENCY_INJECTION'=>[],
+            /*应用加载脚本*/
+            'REQUIRE_SCRIPT'=>[],
         );
     }
 }

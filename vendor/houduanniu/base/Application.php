@@ -71,6 +71,20 @@ class Application
                 return new \houduanniu\base\Config($config_path);
             };
         }
+        #添加应用依赖注入
+        $app_container = $container['config']->get('DEPENDENCY_INJECTION');
+        if (!empty($app_container)) {
+            foreach ($app_container as $key => $value) {
+                $container[$key] = $value;
+            }
+        }
+        #加载应用依赖脚本
+        $require_script = $container['config']->get('REQUIRE_SCRIPT');
+        if(!empty($require_script)){
+            foreach($require_script as $value){
+                require $value;
+            }
+        }
         #运行应用
         self::getInstance()->container = $container;
         #运行程序

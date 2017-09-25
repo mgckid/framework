@@ -25,7 +25,6 @@ class BaseController extends Controller
     function __construct()
     {
         parent::__construct();
-        require_once(PROJECT_PATH . '/common/vendor/function.php');
         $this->imageSize = C('IMAGE_SIZE');
         $this->setInfo('siteInfo', $this->getSiteInfo());
     }
@@ -61,13 +60,6 @@ class BaseController extends Controller
     public function curl()
     {
         $container = Application::container();
-        if (!isset($container['curl'])) {
-            #注册curl组件
-            $container['curl'] = function ($c) {
-                $curl = new Curl();
-                return $curl;
-            };
-        }
         if (ENVIRONMENT == 'develop') {
             $container['curl']->setOpt(CURLOPT_PROXY, '127.0.0.1:7777');
         }

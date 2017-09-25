@@ -32,9 +32,6 @@ return array(
     #异常类 A small library that aims at supplementing default exceptions in PHP
     'Exceptions' => __DIR__ . '/standard-exceptions-master/Exceptions',
 
-    #PHP Curl Class makes it easy to send HTTP requests and integrate with web APIs https://www.phpcurlclass.com/
-    'Curl' => __DIR__ . '/php-curl-class-master/src/Curl',
-
     #验证类(Laravel Validation 简化无依赖版)
     'Overtrue\Validation' => __DIR__ . '/overtrue/validation/src',
     /****************************核心库文件 结束***************************/

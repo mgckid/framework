@@ -39,6 +39,9 @@ return array(
         'imageMaxSize' => '5120000',                              /* 图片上传大小限制，单位B */
     ),
     /*Ueditor自定义配置 结束*/
+    'REQUIRE_SCRIPT' => [
+        PROJECT_PATH . '/common/vendor/function.php',
+    ],
 
 
 );

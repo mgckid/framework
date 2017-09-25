@@ -19,7 +19,7 @@ define('IS_GET', strtolower($_SERVER['REQUEST_METHOD']) == 'get' ? true : false)
 #是否post请求
 define('IS_POST', ($_SERVER['REQUEST_METHOD'] == 'POST' && (empty($_SERVER['HTTP_REFERER']) || preg_replace("~https?:\/\/([^\:\/]+).*~i", "\\1", $_SERVER['HTTP_REFERER']) == preg_replace("~([^\:]+).*~", "\\1", $_SERVER['HTTP_HOST']))) ? true : FALSE);
 #项目路径
-defined('PROJECT_PATH') or define('PROJECT_PATH', dirname(dirname($_SERVER['DOCUMENT_ROOT'])));
+defined('PROJECT_PATH') or define('PROJECT_PATH', dirname($_SERVER['DOCUMENT_ROOT']));
 #框架组件路径
 defined('FRAMEWORK_PATH') or define('FRAMEWORK_PATH', __DIR__);
 #框架组件路径
@@ -72,10 +72,10 @@ try {
         return (new \houduanniu\base\Cache())->setCachePath(PROJECT_PATH . '/cache/');
     };
 
-    #注册curl组件
-    $container['curl'] = function ($c) {
-        return new \Curl\Curl();
-    };
+//    #注册curl组件
+//    $container['curl'] = function ($c) {
+//        return new \Curl\Curl();
+//    };
 
     #注册模版引擎n组件
     $container['template_engine'] = function ($c) {
@@ -118,7 +118,6 @@ try {
     defined('APP_PATH') or define('APP_PATH', PROJECT_PATH . '/' . MODULE_NAME);
     #公共模块路径
     defined('COMMON_PATH') or define('COMMON_PATH', PROJECT_PATH . '/common');
-
     \houduanniu\base\Application::run($container);
 } catch (\Exception $e) {
     errorPage($e->getCode(),$e->getMessage(),$e->getFile(),$e->getLine(),$e->getTraceAsString());
