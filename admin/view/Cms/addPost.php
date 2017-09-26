@@ -16,13 +16,6 @@
     </div>
 </div>
 <!--/panel-->
-<div class="tag_list" style="display: none;">
-    <div class="padding10">
-        <?php foreach ($tag_list as $val): ?>
-            <span class="label label-primary" data-id="<?= $val['tag_id'] ?>"><?= $val['tag_name'] ?></span>
-        <?php endforeach; ?>
-    </div>
-</div>
 <!--js组件 开始-->
 <!--上传 开始-->
 <?= $this->insert('Common/plug_upload_fileinput') ?>
