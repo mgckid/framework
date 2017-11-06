@@ -11,7 +11,7 @@ header("content-type:text/html; charset=utf-8");
 
 /*框架常量设置 开始*/
 #框架运行开发模式
-defined('ENVIRONMENT') || define('ENVIRONMENT', 'develop');
+defined('ENVIRONMENT') or define('ENVIRONMENT', 'develop');
 #是否ajax请求
 define('IS_AJAX', isset($_SERVER["HTTP_X_REQUESTED_WITH"]) && strtolower($_SERVER["HTTP_X_REQUESTED_WITH"]) == "xmlhttprequest" ? true : FALSE);
 #是否get请求
@@ -32,66 +32,50 @@ defined('COMMON_PATH') or define('COMMON_PATH', PROJECT_PATH . '/common');
 
 #载入函数库
 require FRAMEWORK_PATH . '/function.php';
-
-#错误报告级别(默认全部)
-if (ENVIRONMENT == 'develop') {
-    error_reporting(E_ALL);
-    ini_set('display_errors', true);
-    ini_set('error_log', PROJECT_PATH . '/log/phperror.txt');
-} elseif (ENVIRONMENT == 'product') {
-    error_reporting(E_ALL ^ E_NOTICE);
-    ini_set('display_errors', false);
-    ini_set('error_log', PROJECT_PATH . '/log/phperror.txt');
+#错误处理设置
+{
+    set_error_handler('errorHandle');
+    #错误报告级别(默认全部)
+    if (ENVIRONMENT == 'develop') {
+        error_reporting(E_ALL);
+        ini_set('display_errors', true);
+    } elseif (ENVIRONMENT == 'product') {
+        error_reporting(E_ALL ^ E_NOTICE);
+        ini_set('display_errors', false);
+        ini_set('log_errors', true);
+        ini_set('error_log', PROJECT_PATH . '/log/php_error.txt');
+    }
 }
 
-#时区设置
-date_default_timezone_set('PRC');
-set_error_handler('errorHandle');
 try {
     require VENDOR_PATH . '/Aura.Autoload-2.x/src/Loader.php';
-    require VENDOR_PATH . '/Pimple-master/src/Pimple/Container.php';
-    $container = new \Pimple\Container();
-    #注册框架配置组件
-    $container['config'] = function ($c) {
-        $common_config = is_dir(COMMON_PATH . '/config') ? COMMON_PATH . '/config' : [];
-        return new \houduanniu\base\Config($common_config);
-    };
-    #注册自动加载类
-    $container['loader'] = function ($c) {
-        return new \Aura\Autoload\Loader();
-    };
-
-    $loader = $container['loader'];
+    #自动加载设置
+    $loader = new \Aura\Autoload\Loader();
     $loader->register();
-    $loader->setPrefixes(require(VENDOR_PATH . '/class_map.php'));
+    $loader->setPrefixes(require(VENDOR_PATH . '/class_map.php'));;
+    #注册框架配置组件
+    $common_config = is_dir(COMMON_PATH . '/config') ? COMMON_PATH . '/config' : [];
+    $config = new \houduanniu\base\Config($common_config);
+    date_default_timezone_set($config->get('timezone_set'));
+
+    $container = \houduanniu\base\Application::container();
+    $container['loader'] = $loader;
+    $container['config'] = $config;
 
     #注册缓存组件
-    $container['cache'] = $container['config']->get('cache');
-
+    $container['cache'] = $config->get('cache');
     #注册模版引擎组件
-    $container['templateEngine'] = $container['config']->get('templateEngine');
-
+    $container['templateEngine'] = $config->get('templateEngine');
     #注册验证器组件
-    $container['validation'] = $container['config']->get('validation');
-
+    $container['validation'] = $config->get('validation');
     #注册http请求打包组件
-    $container['request'] = $container['config']->get('request');
-
+    $container['request'] = $config->get('request');
     #注册路由数据
-    $container['request_data'] = $container['config']->get('request_data');
-
-    #http请求打包数据
-    $request_data = $container['request_data'];
-
-    #当前模块名称常量
-    defined('MODULE_NAME') or define('MODULE_NAME', $request_data['module']);
-    #当前控制器名称常量
-    defined('CONTROLLER_NAME') or define('CONTROLLER_NAME', $request_data['controller']);
-    #当前方法名称常量
-    defined('ACTION_NAME') or define('ACTION_NAME', $request_data['action']);
-    #当前模块路径
-    defined('APP_PATH') or define('APP_PATH', PROJECT_PATH . '/' . strtolower(MODULE_NAME));
-
+    $container['request_data'] = $config->get('request_data');
+    #注册钩子组件
+    $container['hooks'] = $config->get('hooks');
+    
+    #运行应用
     \houduanniu\base\Application::run($container);
 } catch (\Exception $e) {
     errorPage($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine(), $e->getTraceAsString());

@@ -146,20 +146,6 @@ function dump($var, $echo = true, $label = null, $strict = true)
         return $output;
 }
 
-/**
- * 创建应用目录
- * @param type $check
- * @return boolean
- */
-function createApplication()
-{
-    #创建应用目录
-    if (!C('CREATE_APPLICATION'))
-        return true;
-    $helper = new \Extend\Helper();
-    $helper->buildApplication();
-}
-
 
 /**
  * 字符串截取，支持中文和其他编码
@@ -288,23 +274,29 @@ function send_http_status($code)
 
 function errorPage($errno, $errstr, $errfile, $errline, $errtrace)
 {
-    $engine = new \League\Plates\Engine();
-    $engine->setDirectory(FRAMEWORK_PATH . '/templates/');
-    $engine->setFileExtension('tpl');
-    $engine->addData([
-        'e' => [
-            'code' => $errno,
-            'message' => $errstr,
-            'file' => $errfile,
-            'line' => $errline,
-            'trace' => $errtrace,
-        ],
-    ]);
-    if ($errno < 400 || $errno >= 500) {
-        $errno = 500;
+
+    $errorPage = C('404_PAGE');
+    if (ENVIRONMENT == 'product' && !empty($errorPage)) {
+        header('location:' . C('404_PAGE'));
+    } else {
+        $engine = new \League\Plates\Engine();
+        $engine->setDirectory(FRAMEWORK_PATH . '/templates/');
+        $engine->setFileExtension('tpl');
+        $engine->addData([
+            'e' => [
+                'code' => $errno,
+                'message' => $errstr,
+                'file' => $errfile,
+                'line' => $errline,
+                'trace' => $errtrace,
+            ],
+        ]);
+        if ($errno < 400 || $errno >= 500) {
+            $errno = 500;
+        }
+        send_http_status($errno);
+        die ($engine->render('think_exception'));
     }
-    send_http_status($errno);
-    die ($engine->render('think_exception'));
 }
 
 function errorHandle($errno, $errstr, $errfile, $errline)

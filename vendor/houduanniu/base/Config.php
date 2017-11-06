@@ -15,13 +15,12 @@ class Config extends \Noodlehaus\Config
     {
         return array(
             /*框架自定义配置 开始*/
-            /*http请求组件依赖注入*/
-            'request' => function ($c) {
-                return new \houduanniu\base\Request($c['config']->all());
-            },
-            /*http请求路由数据*/
+            /*时区设置*/
+            'timezone_set'=>'PRC',
+            /*http请求路由打包数据*/
             'request_data' => function ($c) {
-                return $c['request']->run();
+                $request =  new \houduanniu\base\Request($c['config']->all());
+                return $request->run();
             },
             /*模版引擎组件依赖注入*/
             'templateEngine' => function ($c) {
@@ -42,8 +41,17 @@ class Config extends \Noodlehaus\Config
                 $cache = new Cache();
                 return $cache->setCachePath($cache_dir);
             },
-            /*应用组件依赖注入*/
-            'DEPENDENCY_INJECTION_MAP' => [],
+            /*hooks钩子组件注入*/
+            'hooks' => function ($c) {
+                $hooks = new  \houduanniu\base\Hooks();
+                $hooks->add_action('After_Hooks_Setup',$hooks);
+                return $hooks;
+            },
+            /*错误处理组件*/
+            'error_handler_set'=>function(){
+                set_error_handler('errorHandle');
+            },
+
             /*应用加载脚本*/
             'REQUIRE_SCRIPT_MAP' => [],
             /*框架自定义配置 结束*/
@@ -81,6 +89,7 @@ class Config extends \Noodlehaus\Config
             'DIR_CONTROLLER' => 'controller',
             'DIR_MODEL' => 'model',
             'DIR_VIEW' => 'view',
+            '404_PAGE' => '',
             /*应用设置 结束*/
 
             /*http请求设置 开始*/

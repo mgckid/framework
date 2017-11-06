@@ -10,6 +10,7 @@ namespace houduanniu\base;
 
 
 use Exceptions\Http\Client\NotFoundException;
+use Pimple\Container;
 
 class Application
 {
@@ -34,7 +35,15 @@ class Application
      */
     public static function run($container)
     {
-        self::getInstance()->container = $container;
+        #当前模块名称常量
+        defined('MODULE_NAME') or define('MODULE_NAME', $container['request_data']['module']);
+        #当前控制器名称常量
+        defined('CONTROLLER_NAME') or define('CONTROLLER_NAME', $container['request_data']['controller']);
+        #当前方法名称常量
+        defined('ACTION_NAME') or define('ACTION_NAME', $container['request_data']['action']);
+        #当前模块路径
+        defined('APP_PATH') or define('APP_PATH', PROJECT_PATH . '/' . strtolower(MODULE_NAME));
+
 
         $loader = $container['loader'];
         #添加应用类文件加载位置
@@ -47,6 +56,7 @@ class Application
         $common_vendor_class_map = COMMON_PATH . '/vendor/class_map.php';
         if (file_exists($common_vendor_class_map)) {
             $class_map_result = require($common_vendor_class_map);
+            print_g($class_map_result);
             if (is_array($class_map_result) && !empty($class_map_result)) {
                 foreach ($class_map_result as $key => $value) {
                     $loader->addPrefix($key, $value);
@@ -73,13 +83,6 @@ class Application
                 ];
                 return new \houduanniu\base\Config($config_path);
             };
-        }
-        #添加应用依赖注入
-        $app_container = $container['config']->get('DEPENDENCY_INJECTION_MAP');
-        if (!empty($app_container)) {
-            foreach ($app_container as $key => $value) {
-                $container[$key] = $value;
-            }
         }
         #加载应用依赖脚本
         $require_script = $container['config']->get('REQUIRE_SCRIPT_MAP');
@@ -118,6 +121,9 @@ class Application
      */
     static public function container()
     {
+        if (!self::getInstance()->container) {
+            self::getInstance()->container = new Container();
+        }
         return self::getInstance()->container;
     }
 
@@ -206,5 +212,18 @@ class Application
     static function templateEngine()
     {
         return self::container()['templateEngine'];
+    }
+
+    /**
+     * 钩子组件
+     * @access public
+     * @author furong
+     * @return \houduanniu\base\Hooks
+     * @since
+     * @abstract
+     */
+    static function hooks()
+    {
+        return self::container()['hooks'];
     }
 }
