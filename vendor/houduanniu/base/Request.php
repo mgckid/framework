@@ -172,7 +172,7 @@ class Request
                 $param = explode('=', $value);
                 $request[$param[0]] = $param[1];
             }
-            $route = explode('/', $request[$this->var_route]);
+            $route = explode('/', trim($request[$this->var_route],'/'));
             if (!empty($route)) {
                 if (empty($this->sub_domain_open) and empty($this->default_module)) {
                     $data['module'] = current(array_splice($route, 0, 1));
