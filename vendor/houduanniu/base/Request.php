@@ -169,12 +169,12 @@ class Request
                 if (empty($value)) {
                     continue;
                 }
-                $param = explode('=', $value);
+                $param = strpos($value, '=') !== false ? explode('=', $value) : [$value, null];
                 $request[$param[0]] = $param[1];
             }
-            $route = explode('/', trim($request[$this->var_route],'/'));
+            $route = isset($request[$this->var_route]) && !empty($request[$this->var_route]) ? explode('/', trim($request[$this->var_route], '/')) : [];
             if (!empty($route)) {
-                if (empty($this->sub_domain_open) and empty($this->default_module)) {
+                if (!$this->sub_domain_open) {
                     $data['module'] = current(array_splice($route, 0, 1));
                 }
             }
