@@ -107,7 +107,7 @@ class Config extends \Noodlehaus\Config
             'VAR_ROUTE' => 'route',
             /*子域名泛解析设置*/
             'MAIN_DOMAIN' => '',
-            'SUB_DOMAIN_OPEN' => true,
+            'SUB_DOMAIN_OPEN' => false,
             'SUB_DOMAIN_RULES' => [
                 'www' => 'home'
             ],
