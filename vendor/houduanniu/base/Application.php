@@ -36,6 +36,8 @@ class Application
     public static function run($container)
     {
         #当前模块名称常量
+        defined('COMMON_MODULE') or define('COMMON_MODULE', 'common');
+        #当前模块名称常量
         defined('MODULE_NAME') or define('MODULE_NAME', $container['request_data']['module']);
         #当前控制器名称常量
         defined('CONTROLLER_NAME') or define('CONTROLLER_NAME', $container['request_data']['controller']);
@@ -56,7 +58,6 @@ class Application
         $common_vendor_class_map = COMMON_PATH . '/vendor/class_map.php';
         if (file_exists($common_vendor_class_map)) {
             $class_map_result = require($common_vendor_class_map);
-            print_g($class_map_result);
             if (is_array($class_map_result) && !empty($class_map_result)) {
                 foreach ($class_map_result as $key => $value) {
                     $loader->addPrefix($key, $value);
