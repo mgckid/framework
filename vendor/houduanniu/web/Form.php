@@ -58,7 +58,7 @@ class Form
      */
     public function get_form_schema()
     {
-        return $this->form_schema?$this->form_schema:[];
+        return $this->form_schema ? $this->form_schema : [];
     }
 
     /**
@@ -456,7 +456,7 @@ class Form
                     case "radio":
                         $input_str .= $this->render_radio($input_title, $input_name, $input_enum, $input_description, $input_value);
                         break;
-                    case 'checkboxs':
+                    case 'checkbox':
                         $input_str .= $this->render_checkbox($input_title, $input_name, $input_enum, $input_description, $input_value);
                         break;
                     case 'select':
@@ -543,9 +543,9 @@ class Form
     {
         $hiddenInput = $this->render_input_hidden($input_name, $input_value);
         $image_url = !empty($input_value) ? getImage($input_value) : '';
-      //  $fileInput = '<input type="file" id="upload_file" data-preview="' . $image_url . '" />';
+        //  $fileInput = '<input type="file" id="upload_file" data-preview="' . $image_url . '" />';
 
-        $html = $hiddenInput ;
+        $html = $hiddenInput;
         $html = $this->render_form_group($input_title, $html, $input_description);
         return $html;
     }
@@ -640,9 +640,10 @@ class Form
     protected function render_checkbox($input_title, $input_name, $input_enum, $input_description, $input_value = '')
     {
         $label_str = '';
+        $input_value = $input_value ? explode(',', $input_value) : [];
         foreach ($input_enum as $value) {
-            $checked_str = $value['value'] == $input_value ? 'checked="checked"' : '';
-            $input_str = $this->render_input('checkbox', $input_name, '', '', $value['value'], $checked_str) . $value['name'];
+            $checked_str = in_array($value['value'], $input_value) ? 'checked="checked"' : '';
+            $input_str = $this->render_input('checkbox', $input_name . '[]', '', '', $value['value'], $checked_str) . $value['name'];
             $label_str .= $this->render_label('checkbox-inline', $input_str) . '&nbsp;&nbsp;';
         }
         $html = $this->render_form_group($input_title, $label_str, $input_description);
