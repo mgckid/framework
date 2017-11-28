@@ -35,4 +35,7 @@ return array(
     #验证类(Laravel Validation 简化无依赖版)
     'Overtrue\Validation' => __DIR__ . '/overtrue/validation/src',
     /****************************核心库文件 结束***************************/
+
+    #Fast request router for PHP
+    'FastRoute' => __DIR__ . '/FastRoute-master/src'
 );

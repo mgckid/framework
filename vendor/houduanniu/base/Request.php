@@ -12,7 +12,12 @@ namespace houduanniu\base;
 class Request
 {
 
-    protected $url_mode = 2;
+    const URL_MODEL_DEFAULT = 0;
+    const URL_MODEL_PATHINFO = 1;
+    const URL_MODEL_PATHINFO_REWRITE = 2;
+    const URL_MODEL_COMBO = 3;
+    const URL_MODEL_COMBO_REWRITE = 4;
+    protected $url_mode = 3;
     protected $default_module = 'home';
     protected $default_controller = 'Index';
     protected $default_action = 'index';
@@ -83,11 +88,13 @@ class Request
                     break;
                 #pathinfo 模式
                 case 1:
+                case 2:
                     $request = (isset($_SERVER['PATH_INFO']) and !empty($_SERVER['PATH_INFO'])) ? $_SERVER['PATH_INFO'] : '';
                     $data = $this->dispatchByPathinfo($request);
                     break;
                 #兼容模式
-                case 2:
+                case 3:
+                case 4:
                     $request = (isset($_SERVER['QUERY_STRING']) and !empty($_SERVER['QUERY_STRING'])) ? $_SERVER['QUERY_STRING'] : '';
                     $data = $this->dispatchByCompromise($request);
                     break;
