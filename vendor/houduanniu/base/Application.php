@@ -43,10 +43,12 @@ class Application
         defined('CONTROLLER_NAME') or define('CONTROLLER_NAME', $container['request_data']['controller']);
         #当前方法名称常量
         defined('ACTION_NAME') or define('ACTION_NAME', $container['request_data']['action']);
-        $app_path = $container['config']->has(strtoupper(MODULE_NAME) . '_PATH') ? $container['config']->get(strtoupper(MODULE_NAME) . '_PATH') : PROJECT_PATH . '/' . strtolower(MODULE_NAME);
         #当前模块路径
+        $app_path = $container['config']->has(strtoupper(MODULE_NAME) . '_PATH') ? $container['config']->get(strtoupper(MODULE_NAME) . '_PATH') : PROJECT_PATH . '/' . strtolower(MODULE_NAME);
         defined('APP_PATH') or define('APP_PATH', $app_path);
-        
+        #公共模块路径
+        $common_path = $container['config']->has('COMMON_PATH') ? $container['config']->get('COMMON_PATH') : PROJECT_PATH . '/common';
+        defined('COMMON_PATH') or define('COMMON_PATH', $common_path);
         $loader = $container['loader'];
         #添加应用类文件加载位置
         $appPath = array(

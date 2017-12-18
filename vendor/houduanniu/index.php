@@ -26,8 +26,6 @@ defined('FRAMEWORK_PATH') or define('FRAMEWORK_PATH', __DIR__);
 defined('VENDOR_PATH') or define('VENDOR_PATH', dirname(FRAMEWORK_PATH));
 #当前域名
 defined('HTTP_HOST') or define('HTTP_HOST', $_SERVER['HTTP_HOST']);
-#公共模块路径
-defined('COMMON_PATH') or define('COMMON_PATH', PROJECT_PATH . '/common');
 /*框架常量设置 结束*/
 
 #载入函数库
@@ -46,15 +44,14 @@ require FRAMEWORK_PATH . '/function.php';
         ini_set('error_log', PROJECT_PATH . '/log/php_error.txt');
     }
 }
-
 try {
     require VENDOR_PATH . '/Aura.Autoload-2.x/src/Loader.php';
     #自动加载设置
     $loader = new \Aura\Autoload\Loader();
     $loader->register();
-    $loader->setPrefixes(require(VENDOR_PATH . '/class_map.php'));;
+    $loader->setPrefixes(require(VENDOR_PATH . '/class_map.php'));
     #注册框架配置组件
-    $common_config = is_dir(COMMON_PATH . '/config') ? COMMON_PATH . '/config' : [];
+    $common_config = is_dir(PROJECT_PATH . '/config') ? PROJECT_PATH . '/config' : [];
     $config = new \houduanniu\base\Config($common_config);
     date_default_timezone_set($config->get('timezone_set'));
 
@@ -74,7 +71,7 @@ try {
     $container['request_data'] = $config->get('request_data');
     #注册钩子组件
     $container['hooks'] = $config->get('hooks');
-    
+
     #运行应用
     \houduanniu\base\Application::run($container);
 } catch (\Exception $e) {
