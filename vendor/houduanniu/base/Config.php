@@ -34,7 +34,7 @@ class Config extends \Noodlehaus\Config
             },
             /*缓存组件依赖注入*/
             'cache' => function ($c) {
-                $cache_dir = PROJECT_PATH . '/cache/';
+                $cache_dir = APP_PATH . '/cache/';
                 if (!is_dir($cache_dir)) {
                     mkdir($cache_dir);
                 }

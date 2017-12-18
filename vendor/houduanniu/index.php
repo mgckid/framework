@@ -8,50 +8,51 @@
  */
 #设置页面字符编码
 header("content-type:text/html; charset=utf-8");
-
-/*框架常量设置 开始*/
-#框架运行开发模式
-defined('ENVIRONMENT') or define('ENVIRONMENT', 'develop');
-#是否ajax请求
-define('IS_AJAX', isset($_SERVER["HTTP_X_REQUESTED_WITH"]) && strtolower($_SERVER["HTTP_X_REQUESTED_WITH"]) == "xmlhttprequest" ? true : FALSE);
-#是否get请求
-define('IS_GET', strtolower($_SERVER['REQUEST_METHOD']) == 'get' ? true : false);
-#是否post请求
-define('IS_POST', ($_SERVER['REQUEST_METHOD'] == 'POST' && (empty($_SERVER['HTTP_REFERER']) || preg_replace("~https?:\/\/([^\:\/]+).*~i", "\\1", $_SERVER['HTTP_REFERER']) == preg_replace("~([^\:]+).*~", "\\1", $_SERVER['HTTP_HOST']))) ? true : FALSE);
-#项目路径
-defined('PROJECT_PATH') or define('PROJECT_PATH', dirname($_SERVER['DOCUMENT_ROOT']));
-#框架组件路径
-defined('FRAMEWORK_PATH') or define('FRAMEWORK_PATH', __DIR__);
-#框架组件路径
-defined('VENDOR_PATH') or define('VENDOR_PATH', dirname(FRAMEWORK_PATH));
-#当前域名
-defined('HTTP_HOST') or define('HTTP_HOST', $_SERVER['HTTP_HOST']);
-/*框架常量设置 结束*/
-
 #载入函数库
-require FRAMEWORK_PATH . '/function.php';
-#错误处理设置
-{
-    set_error_handler('errorHandle');
-    #错误报告级别(默认全部)
-    if (ENVIRONMENT == 'develop') {
-        error_reporting(E_ALL);
-        ini_set('display_errors', true);
-    } elseif (ENVIRONMENT == 'product') {
-        error_reporting(E_ALL ^ E_NOTICE);
-        ini_set('display_errors', false);
-        ini_set('log_errors', true);
-        ini_set('error_log', PROJECT_PATH . '/log/php_error.txt');
-    }
-}
+require __DIR__ . '/function.php';
 try {
+    /*框架常量设置 开始*/
+    #是否ajax请求
+    define('IS_AJAX', isset($_SERVER["HTTP_X_REQUESTED_WITH"]) && strtolower($_SERVER["HTTP_X_REQUESTED_WITH"]) == "xmlhttprequest" ? true : FALSE);
+    #是否get请求
+    define('IS_GET', strtolower($_SERVER['REQUEST_METHOD']) == 'get' ? true : false);
+    #是否post请求
+    define('IS_POST', ($_SERVER['REQUEST_METHOD'] == 'POST' && (empty($_SERVER['HTTP_REFERER']) || preg_replace("~https?:\/\/([^\:\/]+).*~i", "\\1", $_SERVER['HTTP_REFERER']) == preg_replace("~([^\:]+).*~", "\\1", $_SERVER['HTTP_HOST']))) ? true : FALSE);
+    #框架组件路径
+    defined('FRAMEWORK_PATH') or define('FRAMEWORK_PATH', __DIR__);
+    #应用目录（默认为入口文件所在目录）
+    defined('APP_PATH') or define('APP_PATH', $_SERVER['DOCUMENT_ROOT']);
+    #框架运行开发模式
+    defined('ENVIRONMENT') or define('ENVIRONMENT', 'develop');
+//    #项目路径
+//    defined('APP_PATH') or define('APP_PATH', dirname($_SERVER['DOCUMENT_ROOT']));
+    #框架组件路径
+    defined('VENDOR_PATH') or define('VENDOR_PATH', dirname(FRAMEWORK_PATH));
+    #当前域名
+    defined('HTTP_HOST') or define('HTTP_HOST', $_SERVER['HTTP_HOST']);
+
+
+    #错误处理设置
+    {
+        set_error_handler('errorHandle');
+        #错误报告级别(默认全部)
+        if (ENVIRONMENT == 'develop') {
+            error_reporting(E_ALL);
+            ini_set('display_errors', true);
+        } elseif (ENVIRONMENT == 'product') {
+            error_reporting(E_ALL ^ E_NOTICE);
+            ini_set('display_errors', false);
+            ini_set('log_errors', true);
+            ini_set('error_log', APP_PATH . '/log/php_error.txt');
+        }
+    }
     require VENDOR_PATH . '/Aura.Autoload-2.x/src/Loader.php';
     #自动加载设置
     $loader = new \Aura\Autoload\Loader();
     $loader->register();
     $loader->setPrefixes(require(VENDOR_PATH . '/class_map.php'));
     #注册框架配置组件
-    $common_config = is_dir(PROJECT_PATH . '/config') ? PROJECT_PATH . '/config' : [];
+    $common_config = is_dir(APP_PATH . '/config') ? APP_PATH . '/config' : [];
     $config = new \houduanniu\base\Config($common_config);
     date_default_timezone_set($config->get('timezone_set'));
 
