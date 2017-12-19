@@ -8,9 +8,10 @@
  */
 #设置页面字符编码
 header("content-type:text/html; charset=utf-8");
-#载入函数库
-require __DIR__ . '/function.php';
 try {
+    #载入函数库
+    require __DIR__ . '/function.php';
+
     /*框架常量设置 开始*/
     #是否ajax请求
     define('IS_AJAX', isset($_SERVER["HTTP_X_REQUESTED_WITH"]) && strtolower($_SERVER["HTTP_X_REQUESTED_WITH"]) == "xmlhttprequest" ? true : FALSE);
@@ -24,7 +25,7 @@ try {
     defined('APP_PATH') or define('APP_PATH', $_SERVER['DOCUMENT_ROOT']);
     #框架运行开发模式
     defined('ENVIRONMENT') or define('ENVIRONMENT', 'develop');
-//    #项目路径
+//    #项目路径 PROJECT_PATH
 //    defined('APP_PATH') or define('APP_PATH', dirname($_SERVER['DOCUMENT_ROOT']));
     #框架组件路径
     defined('VENDOR_PATH') or define('VENDOR_PATH', dirname(FRAMEWORK_PATH));
@@ -59,7 +60,6 @@ try {
     $container = \houduanniu\base\Application::container();
     $container['loader'] = $loader;
     $container['config'] = $config;
-
     #注册缓存组件
     $container['cache'] = $config->get('cache');
     #注册模版引擎组件
@@ -73,6 +73,21 @@ try {
     #注册钩子组件
     $container['hooks'] = $config->get('hooks');
 
+    #公共模块路径
+    $common_path = $config->has('COMMON_PATH') ? $config->get('COMMON_PATH') : APP_PATH . '/common';
+    defined('COMMON_PATH') or define('COMMON_PATH', $common_path);
+    #当前模块名称常量
+    defined('COMMON_MODULE') or define('COMMON_MODULE', 'common');
+    #当前模块名称常量
+    defined('MODULE_NAME') or define('MODULE_NAME', $container['request_data']['module']);
+    #当前控制器名称常量
+    defined('CONTROLLER_NAME') or define('CONTROLLER_NAME', $container['request_data']['controller']);
+    #当前方法名称常量
+    defined('ACTION_NAME') or define('ACTION_NAME', $container['request_data']['action']);
+
+    #当前模块路径
+    $app_path = $container['config']->has(strtoupper(MODULE_NAME) . '_PATH') ? $container['config']->get(strtoupper(MODULE_NAME) . '_PATH') : APP_PATH . '/' . strtolower(MODULE_NAME);
+    defined('MODULE_PATH') or define('MODULE_PATH', $app_path);
     #运行应用
     \houduanniu\base\Application::run($container);
 } catch (\Exception $e) {
