@@ -33,8 +33,9 @@ class Application
      * @since  2017年3月22日 16:44:31
      * @abstract
      */
-    public static function run($container)
+    public static function run()
     {
+        $container = self::container();
         $loader = $container['loader'];
         #添加应用类文件加载位置
         $appPath = array(
@@ -42,33 +43,7 @@ class Application
             COMMON_PATH,
         );
         $loader->addPrefix('app', $appPath);
-        #添加公共扩展类加载位置
-        $common_vendor_class_map = COMMON_PATH . '/vendor/class_map.php';
-        if (file_exists($common_vendor_class_map)) {
-            $class_map_result = require($common_vendor_class_map);
-            if (is_array($class_map_result) && !empty($class_map_result)) {
-                foreach ($class_map_result as $key => $value) {
-                    $loader->addPrefix($key, $value);
-                }
-            }
-        }
-        #添加应用扩展类加载位置
-        $app_vendor_class_map = APP_PATH . '/vendor/class_map.php';
-        if (file_exists($app_vendor_class_map)) {
-            $class_map_result = require($app_vendor_class_map);
-            if (is_array($class_map_result) && !empty($class_map_result)) {
-                foreach ($class_map_result as $key => $value) {
-                    $loader->addPrefix($key, $value);
-                }
-            }
-        }
-        #加载应用依赖脚本
-        $require_script = $container['config']->get('REQUIRE_SCRIPT_MAP');
-        if (!empty($require_script)) {
-            foreach ($require_script as $value) {
-                require $value;
-            }
-        }
+        
         #运行程序
         $controller_name = 'app\\' . self::config()->get('DIR_CONTROLLER') . '\\' . CONTROLLER_NAME . self::config()->get('EXT_CONTROLLER');
         if (!class_exists($controller_name)) {
@@ -149,7 +124,7 @@ class Application
 
     /**
      * 回话组件
-     * @return  Config
+     * @return  \houduanniu\base\Config
      */
     static function config()
     {
@@ -159,7 +134,7 @@ class Application
 
     /**
      * 缓存组件
-     * @return  Cache
+     * @return  \houduanniu\base\Cache
      */
     static function cache($cache_name = null)
     {
