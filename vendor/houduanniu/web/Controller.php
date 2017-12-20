@@ -3,7 +3,7 @@
 /**
  * 控制器基类
  * Created by PhpStorm.
- * User: CPR137
+ * User: furong
  * Date: 2015/11/3
  * Time: 17:23
  */
